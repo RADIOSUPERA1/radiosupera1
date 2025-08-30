@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RADIO SUPER A1 - TARMA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      margin: 20px 0;
+    }
+    header img {
+      width: 120px;
+      height: auto;
+      border-radius: 12px;
+    }
+    header h1 {
+      font-size: 22px;
+      margin: 10px 0 0;
+    }
+    .player-container {
+      width: 500px;
+      max-width: 90%;
+      margin: 20px auto;
+    }
+    .facebook-container {
+      width: 500px;
+      max-width: 90%;
+      margin: 20px auto;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 400px;
+    }
+    /* Botón flotante WhatsApp */
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: #fff;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 2px 2px 3px #999;
+      z-index: 100;
+    }
+    .whatsapp-float i {
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="assets/portada.png" alt="Logo Radio Super A1">
+  <h1>RADIO SUPER A1 - TARMA<br>de Reymundo Zurita J.</h1>
+</header>
+
+<div class="player-container">
+  <!-- Reproductor Luna -->
+  <script type="text/javascript" src="https://hosted.muses.org/mrp.js"></script>
+  <script type="text/javascript">
+    MRP.insert({
+      'url':'https://stream.zeno.fm/72mck35c1k8uv',
+      'lang':'es',
+      'codec':'mp3',
+      'volume':100,
+      'autoplay':false,
+      'forceHTML5':true,
+      'jsevents':true,
+      'buffering':0,
+      'title':'Radio Super A1',
+      'welcome':'Disfruta nuestra señal en vivo',
+      'wmode':'transparent',
+      'skin':'luna',
+      'width':500,
+      'height':80,
+      'coverimage':'assets/portada.png'
+    });
+  </script>
+</div>
+
+<div class="facebook-container">
+  <!-- Transmisión en vivo de Facebook -->
+  <iframe src="https://www.facebook.com/plugins/page.php?
+    href=https%3A%2F%2Fwww.facebook.com%2Fradiosupera1%2F&tabs=timeline&width=500&height=400&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+    width="500" height="400" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"
+    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+</div>
+
+<!-- Botón WhatsApp -->
+<a href="https://wa.me/51964658275" class="whatsapp-float" target="_blank">
+  <i>💬</i>
+</a>
+
+</body>
+</html>
