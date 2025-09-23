@@ -1,131 +1,78 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Radio Super A1</title>
-  <meta name="description" content="Radio Super A1 - La Radio Poder. Escúchanos en vivo desde Tarma, Perú.">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Radio Super A1 - La Radio Poder">
-  <meta property="og:description" content="Escucha Radio Super A1 en vivo, la Radio Poder desde Tarma para el mundo.">
-  <meta property="og:image" content="https://radiosupera1.netlify.app/og-image.png">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://radiosupera1.netlify.app">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Radio Super A1 - La Radio Poder">
-  <meta name="twitter:description" content="Escucha Radio Super A1 en vivo desde Tarma.">
-  <meta name="twitter:image" content="https://radiosupera1.netlify.app/og-image.png">
-
-  <!-- Favicon & PWA -->
-  <link rel="icon" href="favicon.ico">
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Librerías externas -->
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <link href="https://extassisnetwork.com/player/Luna2/luna.css" rel="stylesheet">
-
-  <style>
-    body{margin:0;padding:0;font-family:Montserrat,sans-serif;color:#fff;text-align:center;position:relative;min-height:100vh;background:#000}
-    .bg-image{position:fixed;inset:0;background:url('FONDO WEB.jpeg') center/cover no-repeat;z-index:-2}
-    .bg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:-1}
-    .social-buttons{display:flex;justify-content:center;gap:20px;margin:15px 0}
-    .social-buttons a{text-decoration:none;color:#fff;font-size:.8rem;text-align:center}
-    .social-buttons img{width:55px;height:55px;border-radius:10px;object-fit:cover;background:#fff;border:2px solid #fff;margin-bottom:5px}
-    #extassis{position:relative;width:100%;max-width:520px;height:400px;margin:18px auto;border:none}
-    .click-hint{margin-top:8px;font-size:1.2rem;font-weight:700;color:#ff0000;text-shadow:0 0 8px #000;animation:blink 2s infinite;display:flex;flex-direction:column;align-items:center;gap:6px}
-    .click-hint .arrow{font-size:1.6rem}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-    .fallback{display:inline-block;margin-top:10px;padding:10px 18px;background:#ff0000;color:#fff;font-weight:700;text-decoration:none;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,.5);transition:.3s}
-    .fallback:hover{background:#cc0000}
-    .radio-title{margin-top:14px}
-    .radio-title h1{margin:0;font-size:28px;color:#ff0000;font-weight:800}
-    .radio-title h2{margin:0;font-size:14px;color:#fff}
-    .founder{background:rgba(0,0,0,.65);padding:14px;border-radius:10px;margin:18px auto;max-width:640px;font-size:15px;line-height:1.5;text-align:justify}
-    .facebook-live{margin:18px auto;max-width:500px}
-    @media(max-width:480px){
-      .social-buttons img{width:44px;height:44px}
-      #extassis{height:320px}
-      .radio-title h1{font-size:20px}
-      .radio-title h2{font-size:13px}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Radio Super A1</title>
+<meta name="description" content="Radio Super A1 - La Radio Poder. Escúchanos en vivo desde Tarma, Perú.">
+<meta property="og:title" content="Radio Super A1 - La Radio Poder">
+<meta property="og:description" content="Escucha Radio Super A1 en vivo, la Radio Poder desde Tarma para el mundo.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://radiosupera1.netlify.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Radio Super A1 - La Radio Poder">
+<meta name="twitter:description" content="Escucha Radio Super A1 en vivo desde Tarma.">
+<meta name="twitter:image" content="og-image.png">
+<link rel="icon" href="favicon.ico">
+<link rel="manifest" href="manifest.json">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link href="https://extassisnetwork.com/player/Luna2/luna.css" rel="stylesheet">
+<style>
+body{margin:0;font-family:Montserrat,sans-serif;color:#fff;text-align:center;min-height:100vh;overflow-x:hidden;background:#000}
+.bg-image{position:fixed;inset:0;background:url('FONDO WEB.jpeg') center/cover no-repeat;background-attachment:fixed;z-index:-2}
+.bg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:-1}
+.social-buttons{display:flex;justify-content:center;gap:15px;margin:10px 0}
+.social-buttons img{width:48px;height:48px;border-radius:8px;border:2px solid #fff;background:#fff}
+#extassis{width:100%;max-width:500px;height:380px;margin:15px auto}
+.click-hint{margin-top:6px;font-size:1.1rem;font-weight:700;color:#ff0000;text-shadow:0 0 6px #000;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.fallback{display:inline-block;margin:10px;padding:8px 16px;background:#ff0000;color:#fff;font-weight:700;text-decoration:none;border-radius:6px}
+.radio-title h1{margin:10px 0 0;font-size:24px;color:#ff0000;font-weight:800}
+.radio-title h2{margin:0;font-size:13px;color:#fff}
+.founder{background:rgba(0,0,0,.6);padding:12px;border-radius:8px;margin:15px auto;max-width:620px;font-size:14px;text-align:justify}
+.facebook-live{margin:15px auto;max-width:480px}
+@media(max-width:480px){#extassis{height:300px}.radio-title h1{font-size:20px}.social-buttons img{width:40px;height:40px}}
+</style>
 </head>
 <body>
-  <div class="bg-image"></div>
-  <div class="bg-overlay"></div>
+<div class="bg-image"></div><div class="bg-overlay"></div>
 
-  <!-- Botones sociales -->
-  <div class="social-buttons">
-    <a href="https://www.facebook.com/radiosupera1/" target="_blank"><img src="F.jpg" alt="Facebook"><div>Facebook</div></a>
-    <a href="https://wa.me/51964658275" target="_blank"><img src="whatsapp.webp" alt="WhatsApp"><div>WhatsApp</div></a>
-  </div>
+<div class="social-buttons">
+  <a href="https://www.facebook.com/radiosupera1/" target="_blank"><img src="F.jpg" alt="Facebook"></a>
+  <a href="https://wa.me/51964658275" target="_blank"><img src="whatsapp.webp" alt="WhatsApp"></a>
+</div>
 
-  <!-- Reproductor -->
-  <div id="extassis" class="extassis"
-    data-userinterface="big"
-    data-backgroundcolor="linear-gradient(135deg, rgba(0,0,0,0.3) 100%, rgba(255,255,255,0.3) 0%)"
-    data-fontcolor="#ffffff"
-    data-hightlightcolor="#ff0000"
-    data-radioname="RADIO SUPER A1"
-    data-coverimage="portada.png"
-    data-coverstyle="animated"
-    data-usevisualizer="real"
-    data-visualizertype="6"
-    data-metadatatechnic="corsproxy"
-    data-usestreamcorsproxy="true"
-    data-streamurl="https://stream.zeno.fm/zignjhagmspuv"
-    data-streamtype="shoutcast2"
-    data-volume="100"
-    data-autoplay="false"
-    data-displayliveicon="false"
-    data-multicolorvisualizer="true"
-    data-color1="#ff0000" data-color2="#06ff00" data-color3="#fff600" data-color4="#0054ff"
-    data-visualizeropacity="0.9"
-    data-displayvisualizericon="true">
-  </div>
+<div id="extassis" class="extassis"
+ data-userinterface="big"
+ data-backgroundcolor="linear-gradient(135deg,rgba(0,0,0,0.3),rgba(255,255,255,0.3))"
+ data-fontcolor="#ffffff" data-hightlightcolor="#ff0000"
+ data-radioname="RADIO SUPER A1"
+ data-coverimage="portada.png" data-coverstyle="animated"
+ data-usevisualizer="real" data-visualizertype="6"
+ data-metadatatechnic="corsproxy" data-usestreamcorsproxy="true"
+ data-streamurl="https://stream.zeno.fm/zignjhagmspuv"
+ data-streamtype="shoutcast2" data-volume="100"
+ data-autoplay="false" data-displayliveicon="false"
+ data-multicolorvisualizer="true"
+ data-color1="#ff0000" data-color2="#06ff00" data-color3="#fff600" data-color4="#0054ff"
+ data-visualizeropacity="0.9" data-displayvisualizericon="true"></div>
 
-  <!-- Hint -->
-  <div id="clickHint" class="click-hint">
-    <div class="arrow">⬆</div><div>TOCA PARA ESCUCHAR</div>
-  </div>
+<div id="clickHint" class="click-hint">⬆ TOCA PARA ESCUCHAR</div>
+<a class="fallback" href="https://stream.zeno.fm/zignjhagmspuv" target="_blank">🎧 Escuchar en vivo</a>
 
-  <!-- Fallback -->
-  <a class="fallback" href="https://stream.zeno.fm/zignjhagmspuv" target="_blank">🎧 Escuchar en vivo</a>
+<div class="radio-title">
+  <h1>RADIO SUPER A1</h1><h2>de Reymundo Zurita J.</h2>
+</div>
 
-  <!-- Títulos -->
-  <div class="radio-title">
-    <h1>RADIO SUPER A1</h1>
-    <h2>de Reymundo Zurita J.</h2>
-  </div>
+<div class="founder"><strong>Reymundo Zurita</strong>, visionario y apasionado por la música, fundó Radio Super A1 con el sueño de unir corazones a través de la radio.</div>
 
-  <!-- Fundador -->
-  <div class="founder">
-    <strong>Reymundo Zurita</strong>, visionario y apasionado por la música, fundó Radio Super A1 con el sueño de unir corazones a través de la radio.
-  </div>
+<div class="facebook-live"><div class="fb-page" data-href="https://www.facebook.com/radiosupera1/" data-tabs="timeline" data-width="480" data-height="380" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div></div>
 
-  <!-- Facebook live -->
-  <div class="facebook-live">
-    <div id="fb-root"></div>
-    <div class="fb-page" data-href="https://www.facebook.com/radiosupera1/" data-tabs="timeline" data-width="500" data-height="400" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>
-  </div>
-
-  <!-- SDK Facebook -->
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v23.0"></script>
-
-  <!-- Ocultar hint al click -->
-  <script>
-    document.addEventListener('click', function () {
-      var h = document.getElementById('clickHint');
-      if (h) h.style.display = 'none';
-    }, { once: true });
-  </script>
-
-  <!-- Scripts reproductor -->
-  <script src="https://extassisnetwork.com/player/Luna2/luna.js"></script>
-  <script src="https://extassisnetwork.com/player/Luna2/luna2.js"></script>
-  <script src="https://extassisnetwork.com/player/Luna2/luna3.js"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v23.0"></script>
+<script>document.addEventListener('click',()=>{let h=document.getElementById('clickHint');if(h)h.style.display='none';},{once:true});</script>
+<script src="https://extassisnetwork.com/player/Luna2/luna.js"></script>
+<script src="https://extassisnetwork.com/player/Luna2/luna2.js"></script>
+<script src="https://extassisnetwork.com/player/Luna2/luna3.js"></script>
 </body>
 </html>
