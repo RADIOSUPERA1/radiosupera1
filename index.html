@@ -33,7 +33,6 @@
       font-family:Montserrat,sans-serif;
       color:#fff;
       text-align:center;
-      position:relative;
       min-height:100vh;
       background:#000;
       overflow-x:hidden;
@@ -43,7 +42,7 @@
     .bg-image {
       position:fixed;
       inset:0;
-      background:url('FONDO%20WEB.jpeg') no-repeat center center;
+      background:url('FONDO%20WEB.jpeg') no-repeat center center fixed;
       background-size:cover;
       z-index:-2;
     }
@@ -96,6 +95,7 @@
       height:400px;
       margin:18px auto;
       border:none;
+      z-index:1;
     }
 
     /* Hint */
@@ -176,18 +176,18 @@
 
   <!-- Botones sociales -->
   <div class="social-buttons">
+    <!-- Facebook -->
     <a href="https://www.facebook.com/radiosupera1/" target="_blank" class="facebook">
-      <!-- SVG Facebook -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5.001 3.657 9.128 8.438 9.878v-6.987H7.898v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562v1.874h2.773l-.443 2.89h-2.33v6.987C18.343 21.128 22 17.001 22 12"/></svg>
       <div>Facebook</div>
     </a>
+    <!-- WhatsApp -->
     <a href="https://wa.me/51964658275" target="_blank" class="whatsapp">
-      <!-- SVG WhatsApp -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.04 2c-5.52 0-10 4.42-10 9.87 0 1.74.46 3.46 1.34 4.97L2 22l5.31-1.35c1.44.79 3.07 1.2 4.73 1.2h.01c5.52 0 10-4.42 10-9.87 0-2.64-1.07-5.14-3-7.01A10.33 10.33 0 0 0 12.04 2zm0 18c-1.38 0-2.73-.36-3.91-1.04l-.28-.16-3.15.8.84-3.07-.18-.31a7.82 7.82 0 0 1-1.2-4.25c0-4.33 3.54-7.85 7.88-7.85 2.1 0 4.07.81 5.56 2.28a7.79 7.79 0 0 1 2.32 5.57c0 4.33-3.54 7.83-7.88 7.83zm4.29-5.77c-.23-.12-1.38-.68-1.59-.76-.21-.08-.36-.12-.52.12s-.6.76-.74.92c-.14.16-.27.18-.5.06-.23-.12-.97-.35-1.85-1.11-.68-.61-1.14-1.36-1.28-1.59-.13-.23-.01-.35.11-.47.12-.12.23-.27.34-.4.11-.13.14-.23.21-.38.07-.15.04-.29-.02-.41-.06-.12-.52-1.25-.71-1.71-.19-.46-.38-.4-.52-.41h-.45c-.15 0-.39.06-.59.29-.2.23-.78.76-.78 1.86s.8 2.16.91 2.31c.11.15 1.57 2.4 3.82 3.37.53.23.95.37 1.28.47.54.17 1.03.15 1.42.09.43-.06 1.38-.56 1.58-1.1.2-.54.2-1 .14-1.1-.06-.1-.21-.16-.44-.28z"/></svg>
       <div>WhatsApp</div>
     </a>
+    <!-- Compartir -->
     <a href="#" id="shareBtn" class="share">
-      <!-- SVG Share -->
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7a2.48 2.48 0 0 0 0-1.39l7.05-4.11a2.5 2.5 0 1 0-.84-1.46L8.07 9.84a2.5 2.5 0 1 0 0 4.32l7.05 4.11c.43.52 1.09.86 1.83.86a2.5 2.5 0 1 0 1.05-4.86z"/></svg>
       <div>Compartir</div>
     </a>
