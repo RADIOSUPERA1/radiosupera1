@@ -1,241 +1,69 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<!DOCTYPE html><html lang="es"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Radio Super A1 de Reymundo Zurita Jesús - Música, cultura y entretenimiento.">
-<meta property="og:title" content="Radio Super A1 de Reymundo Zurita Jesús">
-<meta property="og:description" content="Escucha Radio Super A1 en vivo. ¡Comparte y disfruta de la mejor música!">
-<meta property="og:image" content="portada.png">
-<meta property="og:url" content="https://radiosupera1.netlify.app/">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Radio Super A1</title>
-
+<meta name="description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento de Tarma, Perú.">
+<meta property="og:title" content="Radio Super A1 - En Vivo las 24 Horas">
+<meta property="og:description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento desde Tarma, Perú.">
+<meta property="og:image" content="https://radiosupera1.netlify.app/social-share.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://radiosupera1.netlify.app/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_PE">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Radio Super A1 - En Vivo las 24 Horas">
+<meta name="twitter:description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento desde Tarma, Perú.">
+<meta name="twitter:image" content="https://radiosupera1.netlify.app/social-share.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-  background:url('portada.png') no-repeat center center fixed;
-  background-size:cover;
-  height:100vh;
-  color:#fff;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:url('portada.png') no-repeat center center fixed;background-size:cover;height:100vh;color:#fff;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
 header{background:rgba(0,0,0,0.55);padding:10px 20px;border-radius:15px;margin-bottom:15px}
 h1{font-size:2.2em;margin-bottom:5px}
-.status{margin-top:8px;font-size:0.95em;color:#0f0;text-shadow:1px 1px 3px #000}
-
-/* === REPRODUCTOR ROBUSTO === */
-.player{
-  background:rgba(0,0,0,0.75);
-  border-radius:25px;
-  padding:25px 35px;
-  box-shadow:0 0 20px rgba(255,255,255,0.3);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  width:380px;
-  max-width:90%;
-}
-.controls{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:18px;
-}
-.play-btn{
-  background:#fff;
-  border:none;
-  border-radius:50%;
-  width:70px;
-  height:70px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:transform .2s;
-}
+.status{margin-top:8px;font-size:.95em;color:#0f0;text-shadow:1px 1px 3px #000}
+.player{background:rgba(0,0,0,0.75);border-radius:25px;padding:25px 35px;box-shadow:0 0 20px rgba(255,255,255,0.3);display:flex;flex-direction:column;align-items:center;width:380px;max-width:90%}
+.controls{display:flex;align-items:center;justify-content:center;gap:18px}
+.play-btn{background:#fff;border:none;border-radius:50%;width:70px;height:70px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
 .play-btn:hover{transform:scale(1.1)}
 .play-btn svg{width:32px;height:32px;fill:#000}
-
-.bars{
-  display:flex;
-  gap:5px;
-  align-items:flex-end;
-  height:35px;
-  width:40px;
-  margin-left:10px;
-}
-.bar{
-  width:6px;
-  background:#0f0;
-  animation:equalize 1s infinite;
-}
-.bar:nth-child(2){animation-delay:.2s}
-.bar:nth-child(3){animation-delay:.4s}
-.bar:nth-child(4){animation-delay:.6s}
-@keyframes equalize{
-  0%,100%{height:5px}
-  50%{height:35px}
-}
-.bars.off .bar{
-  animation:none;
-  background:#555;
-  height:5px;
-}
-
-/* === REDES === */
-.social{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  margin-top:20px;
-}
-.social a{
-  border-radius:50%;
-  padding:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:45px;
-  height:45px;
-  transition:transform .2s;
-}
+.bars{display:flex;gap:5px;align-items:flex-end;height:35px;width:40px;margin-left:10px}
+.bar{width:6px;background:#0f0;animation:equalize 1s infinite}
+.bar:nth-child(2){animation-delay:.2s}.bar:nth-child(3){animation-delay:.4s}.bar:nth-child(4){animation-delay:.6s}
+@keyframes equalize{0%,100%{height:5px}50%{height:35px}}
+.bars.off .bar{animation:none;background:#555;height:5px}
+.social{display:flex;justify-content:center;gap:15px;margin-top:20px}
+.social a{border-radius:50%;padding:8px;display:flex;align-items:center;justify-content:center;width:45px;height:45px;transition:transform .2s}
 .social a:hover{transform:scale(1.1)}
 .social img{width:26px;height:26px}
-.facebook{background:#1877f2}
-.whatsapp{background:#25d366}
-.youtube{background:#ff0000}
-
-/* === COMPARTIR === */
-.share{
-  margin-top:25px;
-  background:#ffffffcc;
-  color:#000;
-  border:none;
-  border-radius:25px;
-  padding:10px 22px;
-  cursor:pointer;
-  font-weight:600;
-  transition:background .3s;
-}
+.facebook{background:#1877f2}.whatsapp{background:#25d366}.youtube{background:#ff0000}
+.share{margin-top:25px;background:#ffffffcc;color:#000;border:none;border-radius:25px;padding:10px 22px;cursor:pointer;font-weight:600;transition:background .3s}
 .share:hover{background:#fff}
-
-footer{margin-top:25px;font-size:0.85em;text-shadow:1px 1px 3px #000}
-
-@media(max-width:600px){
-  h1{font-size:1.6em}
-  .player{padding:20px;width:90%}
-  .play-btn{width:60px;height:60px}
-}
-</style>
-</head>
-
-<body>
-<header>
-  <h1>🎵 Radio Super A1 🎶</h1>
-  <p>De Reymundo Zurita Jesús</p>
-</header>
-
-<div class="player">
-  <div class="controls">
-    <button class="play-btn" id="playButton" title="Reproducir / Pausar">
-      <svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-    </button>
-    <div class="bars off" id="bars">
-      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-    </div>
-  </div>
-  <div class="status" id="statusText">⏳ Conectando...</div>
-  <audio id="audioPlayer" preload="auto">
-    <source src="https://stream.zeno.fm/zignjhagmspuv" type="audio/mpeg">
-  </audio>
-</div>
-
+footer{margin-top:25px;font-size:.85em;text-shadow:1px 1px 3px #000}
+@media(max-width:600px){h1{font-size:1.6em}.player{padding:20px;width:90%}.play-btn{width:60px;height:60px}}
+</style></head><body>
+<header><h1>🎵 Radio Super A1 🎶</h1><p>De Reymundo Zurita Jesús</p></header>
+<div class="player"><div class="controls">
+<button class="play-btn" id="playButton" title="Reproducir / Pausar">
+<svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+<div class="bars off" id="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>
+<div class="status" id="statusText">⏳ Conectando...</div>
+<audio id="audioPlayer" preload="auto"><source src="https://stream.zeno.fm/zignjhagmspuv" type="audio/mpeg"></audio></div>
 <div class="social">
-  <a href="https://www.facebook.com/radiosupera1" target="_blank" class="facebook" title="Facebook">
-    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook">
-  </a>
-  <a href="https://wa.me/51999999999" target="_blank" class="whatsapp" title="WhatsApp">
-    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
-  </a>
-  <a href="https://www.youtube.com/@radiosupera1" target="_blank" class="youtube" title="YouTube">
-    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube">
-  </a>
+<a href="https://www.facebook.com/radiosupera1" target="_blank" class="facebook" title="Facebook">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook"></a>
+<a href="https://wa.me/51964658275?text=Hola%20Radio%20Super%20A1%20👋%20quiero%20escuchar%20la%20radio%20en%20vivo!" target="_blank" class="whatsapp" title="WhatsApp">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"></a>
+<a href="https://www.youtube.com/@radiosupera1" target="_blank" class="youtube" title="YouTube">
+<img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube"></a>
 </div>
-
 <button class="share" onclick="shareSite()">📢 Compartir</button>
-
 <footer>© 2025 Radio Super A1 de Reymundo Zurita Jesús | Todos los derechos reservados</footer>
-
 <script>
-const audio=document.getElementById('audioPlayer');
-const playButton=document.getElementById('playButton');
-const iconPlay=document.getElementById('iconPlay');
-const bars=document.getElementById('bars');
-const statusText=document.getElementById('statusText');
-let playing=false;
-
-// --- Intento automático de conexión ---
-window.addEventListener('load',()=>{
-  const tryPlay=()=>{
-    audio.play().then(()=>{
-      iconPlay.innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-      statusText.textContent='🎙️ En vivo...';
-      bars.classList.remove('off');
-      playing=true;
-    }).catch(()=>{
-      statusText.textContent='⏳ Conectando... (haz clic para iniciar)';
-    });
-  };
-  tryPlay();
-});
-
-// --- Botón manual ---
-playButton.onclick=()=>{
-  if(!playing){
-    audio.play();
-    iconPlay.innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-    statusText.textContent='🎙️ En vivo...';
-    bars.classList.remove('off');
-    playing=true;
-  }else{
-    audio.pause();
-    iconPlay.innerHTML='<path d="M8 5v14l11-7z"/>';
-    statusText.textContent='⏸️ Pausado';
-    bars.classList.add('off');
-    playing=false;
-  }
-};
-
-// --- Detección de errores ---
-audio.addEventListener('error',()=>{
-  statusText.textContent='❌ Señal no disponible';
-  bars.classList.add('off');
-});
-
-// --- Reanudar al recibir señal ---
-audio.addEventListener('playing',()=>{
-  statusText.textContent='🎙️ En vivo...';
-  bars.classList.remove('off');
-});
-
-// --- Función compartir ---
-function shareSite(){
-  if(navigator.share){
-    navigator.share({
-      title:'Radio Super A1',
-      text:'Escucha Radio Super A1 en vivo 🎶',
-      url:'https://radiosupera1.netlify.app/'
-    });
-  }else{
-    alert('Tu navegador no soporta compartir. Copia el enlace: https://radiosupera1.netlify.app/');
-  }
-}
-</script>
-</body>
-</html>
+const audio=document.getElementById('audioPlayer'),playButton=document.getElementById('playButton'),iconPlay=document.getElementById('iconPlay'),bars=document.getElementById('bars'),statusText=document.getElementById('statusText');let playing=false;
+window.addEventListener('load',()=>{audio.play().then(()=>{iconPlay.innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';statusText.textContent='🎙️ En vivo...';bars.classList.remove('off');playing=true;}).catch(()=>{statusText.textContent='⏳ Conectando... (haz clic para iniciar)';});});
+playButton.onclick=()=>{if(!playing){audio.play();iconPlay.innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';statusText.textContent='🎙️ En vivo...';bars.classList.remove('off');playing=true;}else{audio.pause();iconPlay.innerHTML='<path d="M8 5v14l11-7z"/>';statusText.textContent='⏸️ Pausado';bars.classList.add('off');playing=false;}};
+audio.addEventListener('error',()=>{statusText.textContent='❌ Señal no disponible';bars.classList.add('off');});
+audio.addEventListener('playing',()=>{statusText.textContent='🎙️ En vivo...';bars.classList.remove('off');});
+function shareSite(){if(navigator.share){navigator.share({title:'Radio Super A1',text:'Escucha Radio Super A1 en vivo las 24 horas 🎶',url:'https://radiosupera1.netlify.app/'});}else{alert('Tu navegador no soporta compartir. Copia el enlace: https://radiosupera1.netlify.app/');}}
+</script></body></html>
