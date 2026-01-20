@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Radio Super A1</title>
+    <meta name="description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento de Tarma, Perú.">
+    <meta property="og:title" content="Radio Super A1 - En Vivo las 24 Horas">
+    <meta property="og:description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento desde Tarma, Perú.">
+    <meta property="og:image" content="https://radiosupera1.netlify.app/social-share.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://radiosupera1.netlify.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_PE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Radio Super A1 - En Vivo las 24 Horas">
+    <meta name="twitter:description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento desde Tarma, Perú.">
+    <meta name="twitter:image" content="https://radiosupera1.netlify.app/social-share.png">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Pre-conexión al servidor de streaming para reducir la latencia -->
+    <link rel="preconnect" href="https://stream.zeno.fm">
+    
+    <style>
+        /* ==========================================
+           ESTILOS ORIGINALES DE LA PÁGINA SIMPLE (PRESERVADOS)
+           ========================================== */
+        *{margin:0;padding:0;box-sizing:border-box}
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+        body{
+            font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+            background-color: #1a1a1a;
+            background-image: url('./images/portada.webp');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            color:#fff;
+            text-align:center;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        header{
+            background:rgba(0,0,0,0.55);
+            padding:10px 20px;
+            border-radius:15px;
+            margin-bottom:15px;
+        }
+        h1{font-size:2.2em;margin-bottom:5px}
+        .social{
+            display:flex;
+            justify-content:center;
+            gap:15px;
+            margin-top:20px;
+        }
+        .social a{
+            border-radius:50%;
+            padding:8px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width:45px;
+            height:45px;
+            transition:transform .2s;
+        }
+        .social a:hover{transform:scale(1.1)}
+        .social img{width:26px;height:26px}
+        .facebook{background:#1877f2}
+        .whatsapp{background:#25d366}
+        .youtube{background:#ff0000}
+        .share{
+            margin-top:25px;
+            background:#ffffffcc;
+            color:#000;
+            border:none;
+            border-radius:25px;
+            padding:10px 22px;
+            cursor:pointer;
+            font-weight:600;
+            transition:background .3s;
+        }
+        .share:hover{background:#fff}
+        footer{
+            margin-top:25px;
+            font-size:.85em;
+            text-shadow:1px 1px 3px #000;
+        }
+        @media(max-width:600px){
+            h1{font-size:1.6em}
+        }
+
+        /* ==========================================
+           VARIABLES Y ESTILOS DEL REPRODUCTOR (MEJORADO Y OPTIMIZADO)
+           ========================================== */
+        :root {
+            --red-primary: #dc2626;
+            --neon-green: #00ff66;
+            --neon-cyan: #00ffff;
+            --neon-pink: #ff00ff;
+            --blue-dk: #0a1929;
+            --blue-mid: #1a2a3d;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        /* CONTENEDOR PRINCIPAL (TOTALMENTE TRANSPARENTE) */
+        .industrial-player-container {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 1.5rem;
+            position: relative;
+            overflow: visible;
+            width: 85%;
+            max-width: 550px;
+            min-width: 320px;
+        }
+
+        /* REPRODUCTOR NEON (TOTALMENTE TRANSPARENTE) */
+        .neon-player {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            overflow: visible;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .neon-player { padding: 1.2rem 1rem; min-height: 220px; }
+        }
+        @media (max-width: 480px) {
+            .neon-player { padding: 1rem; min-height: 200px; }
+        }
+
+        .neon-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 102, 0.15) 0%, transparent 70%);
+            filter: blur(20px);
+            z-index: 1;
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+        .neon-glow-2 {
+            width: 60%; height: 60%;
+            animation-delay: 2s; filter: blur(30px); opacity: 0.5;
+        }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+
+        .player-core {
+            position: relative; z-index: 2;
+            display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+        }
+        
+        /* BOTÓN NEON (MÁS GRÁFICO) */
+        .neon-play-btn {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: rgba(0, 30, 15, 0.8);
+            border: 3px solid var(--neon-green);
+            cursor: pointer; display: grid; place-items: center;
+            position: relative; transition: all 0.3s ease; z-index: 10;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 102, 0.4),
+                inset 0 0 20px rgba(0, 255, 102, 0.1);
+        }
+        @media (max-width: 480px) {
+            .neon-play-btn { width: 80px; height: 80px; }
+        }
+
+        .neon-play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 40px rgba(0, 255, 102, 0.6),
+                inset 0 0 30px rgba(0, 255, 102, 0.3),
+                border-color: var(--neon-cyan);
+        }
+        .neon-play-btn:active { transform: scale(0.95); }
+        .neon-play-btn.playing {
+            background: rgba(0, 255, 102, 0.1);
+            box-shadow: 
+                0 0 50px rgba(0, 255, 102, 0.6),
+                inset 0 0 30px rgba(0, 255, 102, 0.3);
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+        @keyframes buttonPulse { 0%, 100% { box-shadow: 0 0 50px rgba(0, 255, 102, 0.6); } 50% { box-shadow: 0 0 70px rgba(0, 255, 102, 0.8); } }
+
+        .neon-btn-inner {
+            width: 60%; height: 60%; display: grid; place-items: center;
+            color: var(--neon-green); position: relative; z-index: 2;
+        }
+
+        .ripple-effect {
+            position: absolute; border: 2px solid var(--neon-green); border-radius: 50%;
+            width: 100%; height: 100%; opacity: 0;
+            animation: ripple 3s linear infinite;
+        }
+        .ripple-2 { animation-delay: 1.5s; }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.5); opacity: 0; } }
+
+        /* INDICADOR EN VIVO (CORREGIDO PARA MÁS BRILLO) */
+        .live-indicator {
+            display: flex; align-items: center; gap: 0.8rem;
+            /* CORRECCIÓN: Opacidad y color de fondo/borde aumentados */
+            padding: 0.5rem 1rem; background: rgba(255, 0, 0, 0.5);
+            border: 1px solid rgba(255, 0, 0, 0.8);
+            border-radius: 50px;
+            position: relative; overflow: hidden;
+        }
+        .live-dot {
+            width: 10px; height: 10px; background: #ff0000; border-radius: 50%;
+            /* CORRECCIÓN: Sombra (glow) más intensa y brillante */
+            animation: livePulse 1.5s ease-in-out infinite; 
+            box-shadow: 0 0 15px #ff0000, 0 0 25px #ff3333;
+        }
+        @keyframes livePulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.1); } }
+        .live-text {
+            /* CORRECCIÓN: Color más vivo y con efecto de brillo (text-shadow) */
+            color: #ff0000; font-weight: 700; font-size: 0.8rem;
+            letter-spacing: 1px; text-transform: uppercase;
+            text-shadow: 0 0 8px #ff0000, 0 0 12px #ff3333;
+        }
+
+        /* ECUALIZADOR PROFESIONAL (MANTIENE SU FONDO OSCURO) */
+        .visualizer-container {
+            width: 100%; max-width: 500px; margin-top: 1.5rem;
+            padding: 1rem; background: rgba(0, 15, 8, 0.6);
+            border-radius: 16px; border: 1px solid rgba(0, 255, 102, 0.1);
+        }
+        @media (max-width: 480px) {
+            .visualizer-container { padding: 0.8rem; margin-top: 1rem; }
+        }
+
+        .visualizer-title {
+            text-align: center; color: var(--neon-green); font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; font-weight: 600;
+        }
+
+        .visualizer-grid {
+            display: flex; justify-content: center; align-items: flex-end;
+            gap: 3px; height: 100px; padding: 1rem;
+            background: rgba(0, 0, 0, 0.3); border-radius: 12px; margin-bottom: 1rem;
+        }
+        @media (max-width: 480px) {
+            .visualizer-grid { height: 80px; padding: 0.8rem; gap: 2px; }
+        }
+
+        .vis-bar {
+            width: 10px; min-height: 4px;
+            background: linear-gradient(to top, var(--neon-green), var(--neon-cyan));
+            border-radius: 6px 6px 2px 2px; position: relative;
+            transition: height 0.1s ease;
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.5), inset 0 0 4px rgba(255, 255, 255, 0.2);
+        }
+        @media (max-width: 480px) { .vis-bar { width: 8px; } }
+        .vis-bar::before {
+            content: ''; position: absolute; top: -2px; left: 0; right: 0; height: 4px;
+            background: var(--neon-cyan); border-radius: 2px; opacity: 0.8;
+        }
+
+        .frequency-display {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem; color: var(--neon-green); font-family: 'Courier New', monospace; font-size: 1rem;
+        }
+        @media (max-width: 480px) { .frequency-display { font-size: 0.9rem; } }
+        .freq-label { opacity: 0.7; }
+        .freq-value { font-weight: 700; text-shadow: 0 0 10px rgba(0, 255, 102, 0.5); }
+
+        /* PANEL DE CONTROL (TOTALMENTE TRANSPARENTE) */
+        .player-controls-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+        }
+
+        .uptime-display {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 102, 0.1);
+        }
+        @media (max-width: 480px) {
+            .uptime-display { padding: 0.5rem 1rem; gap: 0.5rem; }
+            .uptime-display .uptime-label { display: none; }
+        }
+        .uptime-display i { color: var(--neon-green); }
+        #uptimeCounter {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: var(--neon-green);
+            font-weight: 700;
+        }
+        @media (max-width: 480px) { #uptimeCounter { font-size: 1rem; } }
+        .uptime-label {
+            color: rgba(0, 255, 102, 0.7);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* PANEL DE ALERTAS */
+        .alert-panel {
+            position: fixed; bottom: 2rem; left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(90deg, rgba(0, 40, 20, 0.95), rgba(0, 60, 30, 0.95));
+            border: 1px solid #00ff66; border-radius: 12px;
+            padding: 0.8rem 1.2rem; display: flex; align-items: center;
+            justify-content: space-between; gap: 1.5rem; min-width: 300px;
+            max-width: 90vw;
+            z-index: 10000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 255, 102, 0.3);
+            opacity: 0; transition: all 0.4s ease;
+        }
+        @media (max-width: 480px) {
+            .alert-panel { bottom: 1rem; padding: 0.6rem 1rem; min-width: auto; width: calc(100% - 2rem); }
+        }
+        .alert-panel.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        .alert-content { display: flex; align-items: center; gap: 1rem; flex: 1; }
+        .alert-content i { color: #00ff66; font-size: 1.5rem; }
+        #alertMessage { color: white; font-size: 0.9rem; font-weight: 500; }
+
+        .alert-close {
+            background: none; border: none; color: rgba(255, 255, 255, 0.5);
+            font-size: 1.5rem; cursor: pointer; padding: 0.2rem;
+            transition: color 0.3s ease;
+        }
+        .alert-close:hover { color: #00ff66; }
+        
+        /* AUTOPLAY OVERLAY */
+        .autoplay-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        
+        .autoplay-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .autoplay-content {
+            background: linear-gradient(135deg, rgba(10, 25, 41, 0.98), rgba(5, 15, 25, 1));
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 102, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .autoplay-title {
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .autoplay-text {
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        
+        .autoplay-btn {
+            background: rgba(0, 255, 102, 0.2);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .autoplay-btn:hover {
+            background: rgba(0, 255, 102, 0.3);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🎵 Radio Super A1 🎶</h1>
+        <p>De Reymundo Zurita Jesús</p>
+    </header>
+
+    <!-- REPRODUCTOR OPTIMIZADO Y SIMPLIFICADO -->
+    <div class="industrial-player-container">
+        <!-- REPRODUCTOR CON EFECTO NEON -->
+        <div class="neon-player" id="neonPlayer">
+            <div class="neon-glow"></div>
+            <div class="neon-glow neon-glow-2"></div>
+            
+            <div class="player-core">
+                <button class="neon-play-btn" id="neonPlayBtn" aria-label="Reproducir/Pausar">
+                    <div class="neon-btn-inner">
+                        <svg class="play-icon" width="28" height="28" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" fill="currentColor"/>
+                        </svg>
+                        <svg class="pause-icon" width="28" height="28" viewBox="0 0 24 24" style="display: none;">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="ripple-effect"></div>
+                    <div class="ripple-effect ripple-2"></div>
+                </button>
+                
+                <div class="live-indicator" id="liveIndicator" style="display: none;">
+                    <div class="live-dot"></div>
+                    <span class="live-text">EN VIVO</span>
+                </div>
+            </div>
+            
+            <div class="visualizer-container">
+                <div class="visualizer-title">ECUALIZADOR EN TIEMPO REAL</div>
+                <div class="visualizer-grid" id="visualizerGrid">
+                    <!-- Barras generadas dinámicamente -->
+                </div>
+                <div class="frequency-display">
+                    <span class="freq-label">FREC:</span>
+                    <span class="freq-value" id="frequencyValue">96.1 FM</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PANEL DE CONTROL SIMPLIFICADO -->
+        <div class="player-controls-panel">
+            <div class="uptime-display">
+                <i class="fas fa-clock"></i>
+                <span id="uptimeCounter">00:00:00</span>
+                <span class="uptime-label">TIEMPO CONECTADO</span>
+            </div>
+        </div>
+        
+        <div class="alert-panel" id="alertPanel">
+            <div class="alert-content">
+                <i class="fas fa-info-circle"></i>
+                <span id="alertMessage">Sistema de audio inicializado</span>
+            </div>
+            <button class="alert-close" id="alertClose">&times;</button>
+        </div>
+    </div>
+
+    <div class="social">
+        <a href="https://www.facebook.com/radiosupera1" target="_blank" class="facebook" title="Facebook">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook">
+        </a>
+        <a href="https://wa.me/51964658275?text=Hola%20Radio%20Super%20A1%20👋%20quiero%20escuchar%20la%20radio%20en%20vivo!" target="_blank" class="whatsapp" title="WhatsApp">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
+        </a>
+        <a href="https://www.youtube.com/@radiosupera1" target="_blank" class="youtube" title="YouTube">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube">
+        </a>
+    </div>
+    
+    <button class="share" onclick="shareSite()">📢 Compartir</button>
+    
+    <footer>© 2025 Radio Super A1 de Reymundo Zurita Jesús | Todos los derechos reservados</footer>
+    
+    <!-- AUTOPLAY OVERLAY -->
+    <div class="autoplay-overlay" id="autoplayOverlay">
+        <div class="autoplay-content">
+            <h2 class="autoplay-title">🎵 Radio Super A1</h2>
+            <p class="autoplay-text">Haz clic para comenzar a escuchar la mejor música en vivo</p>
+            <button class="autoplay-btn" id="autoplayBtn">ESCUCHAR AHORA</button>
+        </div>
+    </div>
+
+    <!-- SCRIPT DEL REPRODUCTOR (SIMPLIFICADO Y ROBUSTO) -->
+    <script>
+        // ==========================================
+        // REPRODUCTOR NEON VERDE - VERSIÓN FINAL (PERFECCIONADO)
+        // ==========================================
+
+        class NeonRadioPlayer {
+            constructor() {
+                this.audio = null;
+                this.isPlaying = false;
+                this.audioContext = null;
+                this.analyser = null;
+                this.dataArray = null;
+                this.bufferLength = null;
+                this.animationId = null;
+                this.uptimeSeconds = 0;
+                this.mutedAutoplaySuccess = false;
+                this.barHeights = [];
+                
+                this.init();
+            }
+
+            init() {
+                console.log("🎧 Inicializando Radio Super A1 Player v5.0 (Final Edition)...");
+                
+                this.createAudioElement();
+                this.createVisualizerBars();
+                this.bindEvents();
+                this.startUptimeCounter();
+                this.attemptMutedAutoplay();
+                this.bindKeyboardShortcuts();
+                
+                console.log("✅ Reproductor listo.");
+            }
+
+            createAudioElement() {
+                this.audio = new Audio();
+                this.audio.volume = 1.0;
+                this.audio.preload = "metadata"; 
+                this.audio.crossOrigin = "anonymous";
+                
+                const testStreams = [
+                    'https://stream.zeno.fm/zignjhagmspuv',
+                    'demo-audio.mp3',
+                    'audio.mp3',
+                    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+                ];
+                
+                this.audio.src = testStreams[0];
+
+                this.audio.addEventListener('error', (e) => {
+                    console.error("Error de audio:", e);
+                    this.showAlert("No se pudo conectar al stream. Recarga la página para intentarlo de nuevo.", "error");
+                });
+            }
+
+            createVisualizerBars() {
+                const container = document.getElementById('visualizerGrid');
+                if (!container) return;
+                
+                container.innerHTML = '';
+                const barCount = window.innerWidth < 480 ? 20 : 32;
+                this.barHeights = new Array(barCount).fill(10);
+                
+                for (let i = 0; i < barCount; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'vis-bar';
+                    bar.style.height = '10%';
+                    container.appendChild(bar);
+                }
+            }
+
+            bindEvents() {
+                const playBtn = document.getElementById('neonPlayBtn');
+                if (playBtn) {
+                    playBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.togglePlay();
+                    });
+                }
+                
+                const alertClose = document.getElementById('alertClose');
+                if (alertClose) {
+                    alertClose.addEventListener('click', () => this.hideAlert());
+                }
+                
+                const autoplayBtn = document.getElementById('autoplayBtn');
+                if (autoplayBtn) {
+                    autoplayBtn.addEventListener('click', () => {
+                        this.hideAutoplayOverlay();
+                        this.play();
+                    });
+                }
+
+                document.addEventListener('click', () => {
+                    if (this.mutedAutoplaySuccess && !this.isPlaying) {
+                        this.audio.muted = false;
+                        this.isPlaying = true;
+                        this.updateUI();
+                        this.startVisualizer();
+                        this.hideAutoplayOverlay();
+                        this.showAlert("Audio activado. ¡Disfruta la música!", "success");
+                    }
+                }, { once: true });
+            }
+            
+            bindKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+                        e.preventDefault();
+                        this.togglePlay();
+                    }
+                });
+            }
+
+            async attemptMutedAutoplay() {
+                try {
+                    this.audio.muted = true;
+                    await this.audio.play();
+                    this.mutedAutoplaySuccess = true;
+                    this.isPlaying = true;
+                    this.updateUI();
+                    this.startVisualizer();
+                    this.showAlert("Reproduciendo en silencio. Haz clic en cualquier parte para activar el sonido.", "info");
+                } catch (error) {
+                    console.log("Autoplay silenciado bloqueado, esperando interacción del usuario.");
+                    this.showAutoplayOverlay();
+                }
+            }
+
+            showAutoplayOverlay() {
+                const overlay = document.getElementById('autoplayOverlay');
+                if (overlay) {
+                    setTimeout(() => overlay.classList.add('show'), 500);
+                }
+            }
+
+            hideAutoplayOverlay() {
+                const overlay = document.getElementById('autoplayOverlay');
+                if (overlay) {
+                    overlay.classList.remove('show');
+                }
+            }
+
+            async togglePlay() {
+                if (this.isPlaying) {
+                    this.pause();
+                } else {
+                    await this.play();
+                }
+            }
+
+            async play() {
+                try {
+                    this.audio.muted = false;
+                    this.showAlert("Conectando a la transmisión...", "info");
+                    
+                    await this.audio.play();
+                    
+                    this.isPlaying = true;
+                    this.updateUI();
+                    
+                    // CORRECCIÓN TÉCNICA: Asegurar que el AudioContext se reanude
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
+                        await this.audioContext.resume();
+                    }
+                    
+                    this.startVisualizer();
+                    this.showAlert("¡Conectado! Transmisión en vivo activa", "success");
+                    
+                    this.setupAudioAnalysis();
+                    
+                    if ("vibrate" in navigator) {
+                        navigator.vibrate(50);
+                    }
+                    
+                } catch (error) {
+                    console.error("Error al reproducir:", error);
+                    this.isPlaying = true;
+                    this.updateUI();
+                    this.startVisualizer();
+                    this.showAlert("Modo demo activado. Para audio real, abre con servidor local.", "warning");
+                }
+            }
+
+            pause() {
+                if (this.audio) {
+                    this.audio.pause();
+                }
+                
+                this.isPlaying = false;
+                this.updateUI();
+                this.stopVisualizer();
+                this.showAlert("Transmisión en pausa", "warning");
+            }
+
+            setupAudioAnalysis() {
+                // CORRECCIÓN TÉCNICA: Evitar reinicialización del AudioContext
+                if (this.audioContext) {
+                    return;
+                }
+
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.analyser = this.audioContext.createAnalyser();
+                    this.analyser.fftSize = 256;
+                    
+                    this.bufferLength = this.analyser.frequencyBinCount;
+                    this.dataArray = new Uint8Array(this.bufferLength);
+                    
+                    if (this.audio.src) {
+                        const source = this.audioContext.createMediaElementSource(this.audio);
+                        source.connect(this.analyser);
+                        this.analyser.connect(this.audioContext.destination);
+                    }
+                    
+                } catch (error) {
+                    console.log("Análisis de audio no disponible, usando simulación mejorada.");
+                }
+            }
+
+            startVisualizer() {
+                this.stopVisualizer();
+                
+                const bars = document.querySelectorAll('.vis-bar');
+                if (!bars.length || !this.barHeights.length) return;
+                
+                const animate = () => {
+                    if (!this.isPlaying) return;
+                    
+                    if (this.analyser && this.dataArray) {
+                        this.analyser.getByteFrequencyData(this.dataArray);
+                        
+                        bars.forEach((bar, i) => {
+                            const dataIndex = Math.floor(i * this.bufferLength / bars.length);
+                            const value = this.dataArray[dataIndex];
+                            const targetHeight = (value / 255) * 100;
+                            
+                            this.barHeights[i] = this.barHeights[i] * 0.7 + targetHeight * 0.3;
+                            const smoothedHeight = Math.max(10, this.barHeights[i]);
+                            
+                            this.updateBar(bar, smoothedHeight, value / 255);
+                        });
+                    } else {
+                        const time = Date.now() / 1000;
+                        bars.forEach((bar, i) => {
+                            let targetHeight = 10;
+                            const bassEnd = Math.floor(bars.length * 0.2);
+                            const midEnd = Math.floor(bars.length * 0.7);
+
+                            if (i < bassEnd) {
+                                targetHeight = 30 + Math.sin(time * 1.5 + i * 0.5) * 50 + Math.random() * 10;
+                            } else if (i < midEnd) {
+                                targetHeight = 20 + Math.sin(time * 3 + i * 0.8) * 30 + Math.random() * 15;
+                            } else {
+                                targetHeight = 15 + Math.sin(time * 6 + i * 1.2) * 15 + Math.random() * 20;
+                            }
+                            
+                            this.barHeights[i] = this.barHeights[i] * 0.7 + targetHeight * 0.3;
+                            const smoothedHeight = Math.max(10, this.barHeights[i]);
+                            
+                            const intensity = smoothedHeight / 100;
+                            this.updateBar(bar, smoothedHeight, intensity);
+                        });
+                    }
+                    
+                    this.animationId = requestAnimationFrame(() => animate());
+                };
+                
+                animate();
+            }
+
+            updateBar(bar, height, intensity) {
+                bar.style.height = `${height}%`;
+                bar.style.background = `linear-gradient(to top, 
+                    rgba(0, 255, 102, ${intensity}), 
+                    rgba(0, 255, 255, ${intensity * 0.8}))`;
+                bar.style.boxShadow = `0 0 ${8 + intensity * 20}px rgba(0, 255, 102, ${intensity})`;
+            }
+
+            stopVisualizer() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                }
+            }
+
+            updateUI() {
+                const playBtn = document.getElementById('neonPlayBtn');
+                if (playBtn) {
+                    playBtn.classList.toggle('playing', this.isPlaying);
+                    
+                    const playIcon = playBtn.querySelector('.play-icon');
+                    const pauseIcon = playBtn.querySelector('.pause-icon');
+                    
+                    if (playIcon && pauseIcon) {
+                        playIcon.style.display = this.isPlaying ? 'none' : 'block';
+                        pauseIcon.style.display = this.isPlaying ? 'block' : 'none';
+                    }
+                }
+                
+                const liveIndicator = document.getElementById('liveIndicator');
+                if (liveIndicator) {
+                    liveIndicator.style.display = this.isPlaying ? 'flex' : 'none';
+                }
+            }
+
+            startUptimeCounter() {
+                setInterval(() => {
+                    if (this.isPlaying) {
+                        this.uptimeSeconds++;
+                        const hours = Math.floor(this.uptimeSeconds / 3600);
+                        const minutes = Math.floor((this.uptimeSeconds % 3600) / 60);
+                        const seconds = this.uptimeSeconds % 60;
+                        
+                        const uptimeEl = document.getElementById('uptimeCounter');
+                        if (uptimeEl) {
+                            uptimeEl.textContent = 
+                                `${hours.toString().padStart(2, '0')}:` +
+                                `${minutes.toString().padStart(2, '0')}:` +
+                                `${seconds.toString().padStart(2, '0')}`;
+                        }
+                    }
+                }, 1000);
+            }
+
+            showAlert(message, type = "info") {
+                const alertPanel = document.getElementById('alertPanel');
+                const alertMessage = document.getElementById('alertMessage');
+                
+                if (!alertPanel || !alertMessage) return;
+                
+                const colors = {
+                    info: '#00ff66',
+                    success: '#00ff66',
+                    warning: '#ffaa00',
+                    error: '#ff3333'
+                };
+                
+                alertPanel.style.borderColor = colors[type] || colors.info;
+                alertMessage.textContent = message;
+                
+                alertPanel.classList.add('show');
+                
+                clearTimeout(this.alertTimeout);
+                this.alertTimeout = setTimeout(() => {
+                    this.hideAlert();
+                }, 5000);
+            }
+
+            hideAlert() {
+                const alertPanel = document.getElementById('alertPanel');
+                if (alertPanel) {
+                    alertPanel.classList.remove('show');
+                }
+            }
+        }
+
+        // ==========================================
+        // FUNCIONES GLOBALES
+        // ==========================================
+        function shareSite() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Radio Super A1',
+                    text: 'Escucha Radio Super A1 en vivo las 24 horas 🎶',
+                    url: 'https://radiosupera1.netlify.app/'
+                });
+            } else {
+                alert('Tu navegador no soporta compartir. Copia el enlace: https://radiosupera1.netlify.app/');
+            }
+        }
+
+        // ==========================================
+        // INICIALIZACIÓN
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            window.radioPlayer = new NeonRadioPlayer();
+        });
+    </script>
+</body>
+</html>
