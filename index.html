@@ -262,30 +262,47 @@
 
         .current-time-display {
             display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.6rem 1.2rem;
+            flex-direction: column; /* 1. Dispone los elementos en columna */
+            align-items: center;    /* 2. Centra todo verticalmente */
+            gap: 0.5rem;           /* 3. Espacio entre el texto y la hora */
+            padding: 1rem 1.2rem;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 8px;
             border: 1px solid rgba(0, 255, 102, 0.1);
         }
-        @media (max-width: 480px) {
-            .current-time-display { padding: 0.5rem 1rem; gap: 0.5rem; }
-            .current-time-display .time-label { display: none; }
+
+        /* Nuevo contenedor para el ícono y la hora */
+        .time-and-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
         }
+
         .current-time-display i { color: var(--neon-green); }
+
         #currentTime {
             font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
+            /* TAMAÑO DUPLICADO: De 1.1rem a 2.2rem */
+            font-size: 2.2rem; 
             color: var(--neon-green);
             font-weight: 700;
         }
-        @media (max-width: 480px) { #currentTime { font-size: 1rem; } }
+
         .time-label {
             color: rgba(0, 255, 102, 0.7);
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            /* ESTILO NEGRITA AÑADIDO */
+            font-weight: bold;
+        }
+
+        /* Ajuste para móviles para que no sea demasiado grande */
+        @media (max-width: 480px) {
+            .current-time-display { padding: 0.8rem 1rem; }
+            /* TAMAÑO DUPLICADO en móvil: De 1rem a 2rem */
+            #currentTime { font-size: 2rem; }
+            .time-label { font-size: 0.8rem; }
         }
 
         /* PANEL DE ALERTAS */
@@ -413,12 +430,14 @@
             </div>
         </div>
         
-        <!-- PANEL DE CONTROL CON RELOJ -->
+        <!-- PANEL DE CONTROL CON RELOJ - ACTUALIZADO -->
         <div class="player-controls-panel">
             <div class="current-time-display">
-                <i class="fas fa-clock"></i>
-                <span id="currentTime">00:00:00</span>
-                <span class="time-label">HORA EN PERÚ</span>
+                <span class="time-label">"HORA EN PERÚ"</span>
+                <div class="time-and-icon">
+                    <i class="fas fa-clock"></i>
+                    <span id="currentTime">00:00:00</span>
+                </div>
             </div>
         </div>
         
