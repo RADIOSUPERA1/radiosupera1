@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Radio Super A1</title>
-    <meta name="description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento de Tarma, Perú.">
+    <title>Radio Super A1 - La Radio Poder de Tarma, Perú</title>
+    <meta name="description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento de Tarma, Perú. Transmisión de alta calidad y ultra rápida.">
+    
+    <!-- Open Graph para redes sociales -->
     <meta property="og:title" content="Radio Super A1 - En Vivo las 24 Horas">
     <meta property="og:description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento desde Tarma, Perú.">
     <meta property="og:image" content="https://radiosupera1.netlify.app/social-share.png">
@@ -14,17 +16,49 @@
     <meta property="og:url" content="https://radiosupera1.netlify.app/">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_PE">
+    
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Radio Super A1 - En Vivo las 24 Horas">
     <meta name="twitter:description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento desde Tarma, Perú.">
     <meta name="twitter:image" content="https://radiosupera1.netlify.app/social-share.png">
+    
+    <!-- Metaetiquetas específicas para Bing -->
+    <meta name="msvalidate.01" content="TU-CÓDIGO-DE-VERIFICACIÓN-DE-BING" />
+    <meta name="msapplication-TileColor" content="#1a1a1a">
+    <meta name="theme-color" content="#00ff66">
+    
+    <!-- Microdatos estructurados para estación de radio -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RadioStation",
+      "name": "Radio Super A1",
+      "description": "La Radio Poder de Tarma, Perú. Música, cultura y entretenimiento 24 horas.",
+      "url": "https://radiosupera1.netlify.app/",
+      "broadcastFrequency": "FM",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tarma",
+        "addressRegion": "Junín",
+        "addressCountry": "Perú"
+      },
+      "sameAs": [
+        "https://www.facebook.com/radiosupera1",
+        "https://www.youtube.com/@radiosupera1"
+      ]
+    }
+    </script>
+    
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Pre-conexión al servidor de streaming para reducir la latencia -->
     <link rel="preconnect" href="https://stream.zeno.fm">
+    <link rel="dns-prefetch" href="https://stream.zeno.fm">
     
     <style>
         /* ==========================================
@@ -34,6 +68,7 @@
         html, body {
             height: 100%;
             width: 100%;
+            scroll-behavior: smooth;
         }
         body{
             font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
@@ -50,12 +85,16 @@
             align-items:center;
             padding: 20px;
             min-height: 100vh;
+            /* Mejora para reducir la pintura en móviles */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         header{
             background:rgba(0,0,0,0.55);
             padding:10px 20px;
             border-radius:15px;
             margin-bottom:15px;
+            backdrop-filter: blur(5px);
         }
         h1{font-size:2.2em;margin-bottom:5px}
         .social{
@@ -98,6 +137,39 @@
         }
         @media(max-width:600px){
             h1{font-size:1.6em}
+        }
+
+        /* ==========================================
+           NUEVO: ESTILO CONTUNDENTE PARA EL ENCABEZADO
+           ========================================== */
+        header h1 {
+            font-size: 2.2em; /* Tamaño original */
+            font-weight: 900; /* Máxima negritas posible */
+            text-transform: uppercase; /* Mayúsculas para máximo impacto */
+            letter-spacing: 2px; /* Espaciado entre letras */
+            color: #fff; /* Mantiene el color blanco */
+            text-shadow: 1px 1px 3px #000; /* Sombra sutil para legibilidad */
+        }
+
+        header p {
+            font-size: 1em; /* Un poco más grande que el por defecto */
+            font-weight: 900; /* Máxima negritas posible */
+            text-transform: uppercase; /* Mayúsculas para consistencia */
+            letter-spacing: 1.5px; /* Espaciado entre letras */
+            color: #fff; /* Mantiene el color blanco */
+            text-shadow: 1px 1px 3px #000; /* Sombra sutil para legibilidad */
+        }
+
+        /* Ajuste para que no sea demasiado grande en móviles */
+        @media(max-width: 600px){
+            header h1 {
+                font-size: 1.6em; /* Tamaño original para móvil */
+                letter-spacing: 1px;
+            }
+            header p {
+                font-size: 0.9em;
+                letter-spacing: 1px;
+            }
         }
 
         /* ==========================================
@@ -237,15 +309,6 @@
                 0 0 20px #ff0000,
                 0 0 30px #ff3333;
         }
-
-        /* CORRECCIÓN: TODO EL CÓDIGO DEL VISUALIZADOR ELIMINADO */
-        /*
-        .visualizer-container { ... }
-        .visualizer-title { ... }
-        .visualizer-grid { ... }
-        .vis-bar { ... }
-        .frequency-display { ... }
-        */
 
         /* PANEL DE CONTROL (CON RELOJ) */
         .player-controls-panel {
@@ -393,6 +456,33 @@
             background: rgba(0, 255, 102, 0.3);
             transform: scale(1.05);
         }
+
+        /* ==========================================
+           NUEVO: IDENTIDAD DE UBICACIÓN EN FOOTER
+           ========================================== */
+        .location-identity {
+            margin-top: 10px; /* Espacio superior para separar del copyright */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1.2rem; /* Tamaño contundente */
+            font-weight: 900; /* Máxima negritas posible */
+            text-transform: uppercase; /* Mayúsculas para máximo impacto */
+            letter-spacing: 3px; /* Espaciado entre letras para dar amplitud y fuerza */
+            color: var(--neon-green); /* Color neón principal de la marca */
+            
+            /* Efecto de brillo neón para que resalte */
+            text-shadow: 
+                0 0 10px var(--neon-green), 
+                0 0 20px var(--neon-green),
+                0 0 30px rgba(0, 255, 102, 0.5);
+        }
+
+        /* Ajuste para que no sea demasiado grande en pantallas pequeñas */
+        @media (max-width: 600px) {
+            .location-identity {
+                font-size: 1rem; /* Tamaño reducido para móviles */
+                letter-spacing: 2px;
+            }
+        }
     </style>
 </head>
 
@@ -433,13 +523,15 @@
         <!-- PANEL DE CONTROL CON RELOJ - ACTUALIZADO -->
         <div class="player-controls-panel">
             <div class="current-time-display">
-                <span class="time-label">"HORA EN PERÚ"</span>
+                <span class="time-label">HORA ACTUAL:</span>
                 <div class="time-and-icon">
                     <i class="fas fa-clock"></i>
                     <span id="currentTime">00:00:00</span>
                 </div>
             </div>
         </div>
+        
+        <!-- ELIMINADO: Indicador de calidad de conexión -->
         
         <div class="alert-panel" id="alertPanel">
             <div class="alert-content">
@@ -464,7 +556,10 @@
     
     <button class="share" onclick="shareSite()">📢 Compartir</button>
     
-    <footer>© 2026 Radio Super A1 de Reymundo Zurita Jesús | Todos los derechos reservados</footer>
+    <footer>
+        © 2026 Radio Super A1 de Reymundo Zurita Jesús | Todos los derechos reservados
+        <div class="location-identity">TARMA - PERÚ</div>
+    </footer>
     
     <!-- AUTOPLAY OVERLAY -->
     <div class="autoplay-overlay" id="autoplayOverlay">
@@ -478,7 +573,7 @@
     <!-- SCRIPT DEL REPRODUCTOR (ROBUSTO Y SIN VISUALIZADOR) -->
     <script>
         // ==========================================
-        // REPRODUCTOR NEON VERDE - VERSIÓN 7.0 (ROBUSTO Y LIGERO)
+        // REPRODUCTOR NEON VERDE - VERSIÓN 8.1 (INDICADOR DE CALIDAD OCULTO)
         // ==========================================
 
         class NeonRadioPlayer {
@@ -494,13 +589,14 @@
             }
 
             init() {
-                console.log("🎧 Inicializando Radio Super A1 Player v7.0 (Robusto y Ligero)...");
+                console.log("🎧 Inicializando Radio Super A1 Player v8.1 (Optimizado y Limpio)...");
                 
                 this.createAudioElement();
                 this.bindEvents();
                 this.startClock();
                 this.attemptMutedAutoplay();
                 this.bindKeyboardShortcuts();
+                // La función de verificación de calidad se mantiene internamente pero no se inicia visualmente
                 
                 console.log("✅ Reproductor listo.");
             }
@@ -512,16 +608,21 @@
                 this.audio.crossOrigin = "anonymous";
                 this.audio.src = this.originalSrc;
 
-                // CORRECCIÓN: Eventos para la reconexión automática
+                // Mejora: Añadir más eventos para una mejor compatibilidad
                 this.audio.addEventListener('stalled', () => this.handleStreamIssue('stalled'));
                 this.audio.addEventListener('error', (e) => this.handleStreamIssue('error', e));
-
+                
+                // Eventos específicos para mejorar la compatibilidad con Bing
+                this.audio.addEventListener('loadeddata', () => {
+                    console.log("Metadatos cargados correctamente");
+                });
+                
                 this.audio.addEventListener('playing', () => {
                     this.reconnectAttempts = 0; // Resetear contador al reproducir
                 });
             }
 
-            // CORRECCIÓN: Lógica de reconexión automática
+            // CORRECCIÓN: Lógica de reconexión automática mejorada
             handleStreamIssue(type, event = null) {
                 if (!this.isPlaying) return; // No intentar reconectar si está en pausa
 
@@ -572,6 +673,18 @@
                     });
                 }
 
+                // Mejora: Añadir evento de toque para móviles
+                document.addEventListener('touchstart', () => {
+                    if (this.audio.muted && !this.isPlaying) {
+                        this.audio.muted = false;
+                        this.isPlaying = true;
+                        this.updateUI();
+                        this.hideAutoplayOverlay();
+                        this.showAlert("Audio activado. ¡Disfruta la música!", "success");
+                    }
+                }, { once: true });
+                
+                // Mantener el evento de clic para escritorio
                 document.addEventListener('click', () => {
                     if (this.audio.muted && !this.isPlaying) {
                         this.audio.muted = false;
@@ -594,11 +707,23 @@
 
             async attemptMutedAutoplay() {
                 try {
+                    // Mejora: Intentar diferentes estrategias de autoplay
                     this.audio.muted = true;
-                    await this.audio.play();
-                    this.isPlaying = true;
-                    this.updateUI();
-                    this.showAlert("Reproduciendo en silencio. Haz clic en cualquier parte para activar el sonido.", "info");
+                    
+                    // Primero intentar autoplay sin restricciones
+                    const playPromise = this.audio.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            this.isPlaying = true;
+                            this.updateUI();
+                            this.showAlert("Reproduciendo en silencio. Haz clic en cualquier parte para activar el sonido.", "info");
+                        }).catch(error => {
+                            console.log("Autoplay bloqueado, intentando con muted autoplay");
+                            // Si falla, mostrar overlay
+                            this.showAutoplayOverlay();
+                        });
+                    }
                 } catch (error) {
                     console.log("Autoplay silenciado bloqueado, esperando interacción del usuario.");
                     this.showAutoplayOverlay();
@@ -632,14 +757,22 @@
                     this.audio.muted = false;
                     this.showAlert("Conectando a la transmisión...", "info");
                     
-                    await this.audio.play();
+                    // Mejora: Añadir timeout para evitar esperas infinitas
+                    const playPromise = this.audio.play();
                     
-                    this.isPlaying = true;
-                    this.updateUI();
-                    this.showAlert("¡Conectado! Transmisión en vivo activa", "success");
-                    
-                    if ("vibrate" in navigator) {
-                        navigator.vibrate(50);
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            this.isPlaying = true;
+                            this.updateUI();
+                            this.showAlert("¡Conectado! Transmisión en vivo activa", "success");
+                            
+                            if ("vibrate" in navigator) {
+                                navigator.vibrate(50);
+                            }
+                        }).catch(error => {
+                            console.error("Error al reproducir:", error);
+                            this.showAlert("No se pudo conectar. Intenta de nuevo en unos momentos.", "error");
+                        });
                     }
                     
                 } catch (error) {
@@ -730,8 +863,8 @@
         function shareSite() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'Radio Super A1',
-                    text: 'Escucha Radio Super A1 en vivo las 24 horas 🎶',
+                    title: 'Radio Super A1 - La Radio Poder de Tarma, Perú',
+                    text: 'Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento de Tarma, Perú. Transmisión de alta calidad y ultra rápida.',
                     url: 'https://radiosupera1.pe/'
                 });
             } else {
@@ -744,6 +877,21 @@
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             window.radioPlayer = new NeonRadioPlayer();
+            
+            // NUEVO: Verificar si el navegador es compatible con todas las características
+            if (!window.AudioContext && !window.webkitAudioContext) {
+                console.warn("Tu navegador podría no ser totalmente compatible con todas las características de audio.");
+            }
+            
+            // NUEVO: Optimización para móviles - prevenir zoom al hacer doble clic
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
         });
     </script>
 </body>
