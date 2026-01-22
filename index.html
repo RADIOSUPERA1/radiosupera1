@@ -53,8 +53,17 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
+    <!-- NUEVO: Google Fonts - Bebas Neue -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Mejora de rendimiento: Pre-conexión a fuentes de Google (usadas por Font Awesome) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Pre-conexión al servidor de streaming para reducir la latencia -->
     <link rel="preconnect" href="https://stream.zeno.fm">
@@ -88,15 +97,10 @@
             /* Mejora para reducir la pintura en móviles */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            /* NUEVO: Optimización táctil para todos los dispositivos */
+            touch-action: manipulation;
         }
-        header{
-            background:rgba(0,0,0,0.55);
-            padding:10px 20px;
-            border-radius:15px;
-            margin-bottom:15px;
-            backdrop-filter: blur(5px);
-        }
-        h1{font-size:2.2em;margin-bottom:5px}
+        
         .social{
             display:flex;
             justify-content:center;
@@ -135,8 +139,57 @@
             font-size:.85em;
             text-shadow:1px 1px 3px #000;
         }
-        @media(max-width:600px){
-            h1{font-size:1.6em}
+
+        /* ==========================================
+           NUEVO: ESTILOS CINEMATOGRÁFICOS PARA EL ENCABEZADO
+           ========================================== */
+        header {
+            /* ELIMINADO: Sin fondo, sombra ni relleno */
+            margin-bottom: 15px; /* Espacio para separar del reproductor */
+        }
+
+        header h1 {
+            font-family: 'Bebas Neue', cursive; /* NUEVO: Tipografía de película */
+            font-size: 2.5em; /* Ajustado para la nueva fuente */
+            font-weight: 400; /* Bebas Neue no tiene negritas, es de peso único */
+            text-transform: capitalize; /* NUEVO: Convierte 'radio super a1' a 'Radio Super A1' */
+            letter-spacing: 1px; /* Ajustado para Bebas Neue */
+            color: #fff;
+            /* ELIMINADO: Sin sombra de texto */
+        }
+
+        header p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            text-transform: none; /* Mantiene minúsculas */
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 1px 1px 3px #000; /* Sombra sutil solo para el subtítulo */
+        }
+
+        /* CORREGIDO: Mejora de la responsividad para la nueva fuente */
+        @media(max-width: 600px){
+            header h1 {
+                font-size: 1.8em; /* Reducido para móviles */
+                letter-spacing: 0.5px;
+            }
+            header p {
+                font-size: 0.9em;
+                letter-spacing: 0.5px;
+            }
+        }
+
+        /* NUEVO: Ajuste para pantallas extra pequeñas */
+        @media(max-width: 400px){
+            header h1 {
+                font-size: 1.5em; /* Reducido aún más */
+                letter-spacing: 0.2px;
+            }
+            header p {
+                font-size: 0.8em;
+                letter-spacing: 0.2px;
+            }
         }
 
         /* ==========================================
@@ -425,6 +478,137 @@
         }
 
         /* ==========================================
+           NUEVO: MODAL PARA COMPARTIR
+           ========================================== */
+        .share-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .share-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .share-modal-content {
+            background: linear-gradient(145deg, #1a2a1a, #0f1f0f);
+            border: 1px solid var(--neon-green);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 255, 102, 0.3);
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .share-modal-overlay.show .share-modal-content {
+            transform: scale(1);
+        }
+
+        .share-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .share-modal-close:hover {
+            color: var(--neon-green);
+        }
+
+        .share-modal-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
+        }
+
+        .share-modal-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .share-modal-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .share-modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn-modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .share-btn-modal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .share-btn-modal i {
+            font-size: 1.2rem;
+        }
+
+        .share-btn-facebook { background: #1877f2; }
+        .share-btn-whatsapp { background: #25d366; }
+        .share-btn-twitter { background: #1da1f2; }
+        .share-btn-linkedin { background: #0077b5; }
+        .share-btn-copy {
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+        }
+        .share-btn-copy:hover {
+            background: rgba(0, 255, 102, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            .share-modal-content { padding: 1.5rem; }
+            .share-modal-title { font-size: 1.3rem; }
+            .share-btn-modal { padding: 10px 15px; font-size: 0.8rem; }
+        }
+
+        /* ==========================================
            NUEVO: IDENTIDAD DE UBICACIÓN EN FOOTER
            ========================================== */
         .location-identity {
@@ -455,8 +639,10 @@
 
 <body>
     <header>
-        <h1>🎵 Radio Super A1 🎶</h1>
-        <p>De Reymundo Zurita Jesús</p>
+        <!-- CAMBIADO: Tipografía de película y formato de título -->
+        <h1>🎵 radio super a1 🎶</h1>
+        <!-- CAMBIADO: Texto en minúscula -->
+        <p>de Reymundo Zurita Jesús</p>
     </header>
 
     <!-- REPRODUCTOR OPTIMIZADO Y ROBUSTO -->
@@ -466,7 +652,7 @@
             <div class="neon-glow neon-glow-2"></div>
             
             <div class="player-core">
-                <button class="neon-play-btn" id="neonPlayBtn" aria-label="Reproducir/Pausar">
+                <button class="neon-play-btn" id="neonPlayBtn" aria-label="Reproducir/Pausar" role="button">
                     <div class="neon-btn-inner">
                         <svg class="play-icon" width="28" height="28" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z" fill="currentColor"/>
@@ -490,15 +676,13 @@
         <!-- PANEL DE CONTROL CON RELOJ - ACTUALIZADO -->
         <div class="player-controls-panel">
             <div class="current-time-display">
-                <span class="time-label">HORA ACTUAL:</span>
+                <span class="time-label">"HORA ACTUAL"</span>
                 <div class="time-and-icon">
                     <i class="fas fa-clock"></i>
                     <span id="currentTime">00:00:00</span>
                 </div>
             </div>
         </div>
-        
-        <!-- ELIMINADO: Indicador de calidad de conexión -->
         
         <div class="alert-panel" id="alertPanel">
             <div class="alert-content">
@@ -521,7 +705,7 @@
         </a>
     </div>
     
-    <button class="share" onclick="shareSite()">📢 Compartir</button>
+    <button class="share" onclick="showShareModal()">📢 Compartir</button>
     
     <footer>
         © 2026 Radio Super A1 de Reymundo Zurita Jesús | Todos los derechos reservados
@@ -537,10 +721,37 @@
         </div>
     </div>
 
+    <!-- MODAL PARA COMPARTIR -->
+    <div class="share-modal-overlay" id="shareModal">
+        <div class="share-modal-content">
+            <button class="share-modal-close" id="shareModalClose">&times;</button>
+            <img src="https://radiosupera1.netlify.app/social-share.png" alt="Radio Super A1 Logo" class="share-modal-logo">
+            <h2 class="share-modal-title">¡Comparte La Radio Poder!</h2>
+            <p class="share-modal-subtitle">Lleva la mejor música a tus amigos</p>
+            <div class="share-modal-buttons">
+                <a href="#" target="_blank" class="share-btn-modal share-btn-facebook" id="shareFacebook">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+                <a href="#" target="_blank" class="share-btn-modal share-btn-whatsapp" id="shareWhatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="#" target="_blank" class="share-btn-modal share-btn-twitter" id="shareTwitter">
+                    <i class="fab fa-x-twitter"></i> Twitter
+                </a>
+                <a href="#" target="_blank" class="share-btn-modal share-btn-linkedin" id="shareLinkedin">
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                </a>
+                <button class="share-btn-modal share-btn-copy" id="copyLinkBtn">
+                    <i class="fas fa-link"></i> Copiar Enlace
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRIPT DEL REPRODUCTOR (ROBUSTO Y SIN VISUALIZADOR) -->
     <script>
         // ==========================================
-        // REPRODUCTOR NEON VERDE - VERSIÓN 8.1 (INDICADOR DE CALIDAD OCULTO)
+        // REPRODUCTOR NEON VERDE - VERSIÓN 8.2 (ULTRA-COMPATIBLE)
         // ==========================================
 
         class NeonRadioPlayer {
@@ -556,14 +767,13 @@
             }
 
             init() {
-                console.log("🎧 Inicializando Radio Super A1 Player v8.1 (Optimizado y Limpio)...");
+                console.log("🎧 Inicializando Radio Super A1 Player v8.2 (Ultra-Compatible)...");
                 
                 this.createAudioElement();
                 this.bindEvents();
                 this.startClock();
                 this.attemptMutedAutoplay();
                 this.bindKeyboardShortcuts();
-                // La función de verificación de calidad se mantiene internamente pero no se inicia visualmente
                 
                 console.log("✅ Reproductor listo.");
             }
@@ -575,23 +785,21 @@
                 this.audio.crossOrigin = "anonymous";
                 this.audio.src = this.originalSrc;
 
-                // Mejora: Añadir más eventos para una mejor compatibilidad
                 this.audio.addEventListener('stalled', () => this.handleStreamIssue('stalled'));
                 this.audio.addEventListener('error', (e) => this.handleStreamIssue('error', e));
-                
-                // Eventos específicos para mejorar la compatibilidad con Bing
-                this.audio.addEventListener('loadeddata', () => {
-                    console.log("Metadatos cargados correctamente");
-                });
-                
-                this.audio.addEventListener('playing', () => {
-                    this.reconnectAttempts = 0; // Resetear contador al reproducir
-                });
+                this.audio.addEventListener('loadeddata', () => console.log("Metadatos cargados correctamente"));
+                this.audio.addEventListener('playing', () => this.reconnectAttempts = 0);
             }
 
-            // CORRECCIÓN: Lógica de reconexión automática mejorada
             handleStreamIssue(type, event = null) {
-                if (!this.isPlaying) return; // No intentar reconectar si está en pausa
+                if (!this.isPlaying) {
+                    if (this.reconnectAttempts === 0) {
+                        this.reconnectAttempts = 1;
+                        console.warn("Autoplay bloqueado por el navegador. Esperando interacción del usuario.");
+                        this.scheduleReconnect();
+                    }
+                    return;
+                }
 
                 console.warn(`Stream issue detected: ${type}`);
                 this.reconnectAttempts++;
@@ -600,22 +808,20 @@
                     this.showAlert(`Interrupción detectada. Reintentando conectar (${this.reconnectAttempts}/${this.maxReconnectAttempts})...`, "warning");
                     this.scheduleReconnect();
                 } else {
-                    this.showAlert("La conexión no pudo ser restablecida después de varios intentos. Por favor, recarga la página.", "error");
-                    this.pause(); // Detener todo
+                    this.showAlert("La conexión no pudo ser restablecida. Por favor, recarga la página.", "error");
+                    this.pause();
                 }
             }
 
             scheduleReconnect() {
-                // CORRECCIÓN: Estrategia de exponential backoff
                 const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
-                setTimeout(() => this.forceReconnect(), Math.min(delay, 30000)); // Máximo 30s
+                setTimeout(() => this.forceReconnect(), Math.min(delay, 30000));
             }
 
             forceReconnect() {
-                // CORRECCIÓN: Limpieza de cache (cache-busting)
                 const cacheBuster = `?t=${Date.now()}`;
                 this.audio.src = this.originalSrc + cacheBuster;
-                this.audio.load(); // Forzar la recarga
+                this.audio.load();
             }
 
             bindEvents() {
@@ -640,7 +846,6 @@
                     });
                 }
 
-                // Mejora: Añadir evento de toque para móviles
                 document.addEventListener('touchstart', () => {
                     if (this.audio.muted && !this.isPlaying) {
                         this.audio.muted = false;
@@ -651,7 +856,6 @@
                     }
                 }, { once: true });
                 
-                // Mantener el evento de clic para escritorio
                 document.addEventListener('click', () => {
                     if (this.audio.muted && !this.isPlaying) {
                         this.audio.muted = false;
@@ -674,25 +878,21 @@
 
             async attemptMutedAutoplay() {
                 try {
-                    // Mejora: Intentar diferentes estrategias de autoplay
                     this.audio.muted = true;
-                    
-                    // Primero intentar autoplay sin restricciones
                     const playPromise = this.audio.play();
                     
                     if (playPromise !== undefined) {
                         playPromise.then(() => {
                             this.isPlaying = true;
                             this.updateUI();
-                            this.showAlert("Reproduciendo en silencio. Haz clic en cualquier parte para activar el sonido.", "info");
+                            this.showAlert("Reproduciendo en silencio. Haz clic para activar el sonido.", "info");
                         }).catch(error => {
-                            console.log("Autoplay bloqueado, intentando con muted autoplay");
-                            // Si falla, mostrar overlay
+                            console.log("Autoplay bloqueado, mostrando overlay.");
                             this.showAutoplayOverlay();
                         });
                     }
                 } catch (error) {
-                    console.log("Autoplay silenciado bloqueado, esperando interacción del usuario.");
+                    console.log("Autoplay silenciado bloqueado, mostrando overlay.");
                     this.showAutoplayOverlay();
                 }
             }
@@ -724,7 +924,6 @@
                     this.audio.muted = false;
                     this.showAlert("Conectando a la transmisión...", "info");
                     
-                    // Mejora: Añadir timeout para evitar esperas infinitas
                     const playPromise = this.audio.play();
                     
                     if (playPromise !== undefined) {
@@ -738,13 +937,13 @@
                             }
                         }).catch(error => {
                             console.error("Error al reproducir:", error);
-                            this.showAlert("No se pudo conectar. Intenta de nuevo en unos momentos.", "error");
+                            this.showAlert("No se pudo conectar. Intenta de nuevo.", "error");
                         });
                     }
                     
                 } catch (error) {
                     console.error("Error al reproducir:", error);
-                    this.showAlert("No se pudo conectar. Intenta de nuevo en unos momentos.", "error");
+                    this.showAlert("No se pudo conectar. Intenta de nuevo.", "error");
                 }
             }
 
@@ -827,16 +1026,38 @@
         // ==========================================
         // FUNCIONES GLOBALES
         // ==========================================
-        function shareSite() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Radio Super A1 - La Radio Poder de Tarma, Perú',
-                    text: 'Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento de Tarma, Perú. Transmisión de alta calidad y ultra rápida.',
-                    url: 'https://radiosupera1.pe/'
-                });
-            } else {
-                alert('Tu navegador no soporta compartir. Copia el enlace: https://radiosupera1.pe/');
-            }
+        const shareUrl = 'https://radiosupera1.netlify.app/';
+        const shareText = '🎵 Escucha Radio Super A1 en vivo las 24 horas 🎶';
+
+        function showShareModal() {
+            const modal = document.getElementById('shareModal');
+            modal.classList.add('show');
+
+            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+            document.getElementById('shareWhatsapp').href = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+            document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+            document.getElementById('shareLinkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+        }
+
+        function hideShareModal() {
+            const modal = document.getElementById('shareModal');
+            modal.classList.remove('show');
+        }
+
+        function copyLink() {
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                const copyBtn = document.getElementById('copyLinkBtn');
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                copyBtn.style.background = 'rgba(0, 255, 102, 0.2)';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.style.background = 'transparent';
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar el enlace: ', err);
+            });
         }
 
         // ==========================================
@@ -845,12 +1066,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             window.radioPlayer = new NeonRadioPlayer();
             
-            // NUEVO: Verificar si el navegador es compatible con todas las características
+            document.getElementById('shareModalClose').addEventListener('click', hideShareModal);
+            document.getElementById('copyLinkBtn').addEventListener('click', copyLink);
+            
+            document.getElementById('shareModal').addEventListener('click', (event) => {
+                if (event.target === event.currentTarget) {
+                    hideShareModal();
+                }
+            });
+            
             if (!window.AudioContext && !window.webkitAudioContext) {
                 console.warn("Tu navegador podría no ser totalmente compatible con todas las características de audio.");
             }
             
-            // NUEVO: Optimización para móviles - prevenir zoom al hacer doble clic
             let lastTouchEnd = 0;
             document.addEventListener('touchend', function (event) {
                 const now = (new Date()).getTime();
