@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Radio Super A1 - La Radio Poder de Tarma, Perú</title>
+    <meta name="description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento de Tarma, Perú. Transmisión de alta calidad y ultra rápida.">
+    
+    <!-- Web App Capable -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#00ff66" media="(prefers-color-scheme: dark)">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Radio Super A1 - En Vivo las 24 Horas">
+    <meta property="og:description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento desde Tarma, Perú.">
+    <meta property="og:image" content="https://radiosupera1.github.io/radiosupera1/images/social-share.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://radiosupera1.github.io/radiosupera1/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_PE">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Radio Super A1 - En Vivo las 24 Horas">
+    <meta name="twitter:description" content="Escucha Radio Super A1 en vivo las 24 horas. Música, cultura y entretenimiento desde Tarma, Perú.">
+    <meta name="twitter:image" content="https://radiosupera1.github.io/radiosupera1/images/social-share.jpg">
+    
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RadioStation",
+      "name": "Radio Super A1",
+      "description": "La Radio Poder de Tarma, Perú. Música, cultura y entretenimiento 24 horas.",
+      "url": "https://radiosupera1.github.io/radiosupera1/",
+      "broadcastFrequency": "FM",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tarma",
+        "addressRegion": "Junín",
+        "addressCountry": "Perú"
+      },
+      "sameAs": [
+        "https://www.facebook.com/radiosupera1",
+        "https://www.youtube.com/@radiosupera1"
+      ]
+    }
+    </script>
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://stream.zeno.fm">
+    <link rel="dns-prefetch" href="https://stream.zeno.fm">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>🎵 Radio Super A1 🎶</h1>
+        <p>de Reymundo Zurita J.</p>
+    </header>
+    
+    <!-- REPRODUCTOR -->
+    <div class="industrial-player-container">
+        <div class="neon-player" id="neonPlayer">
+            <div class="neon-glow"></div>
+            <div class="neon-glow neon-glow-2"></div>
+            
+            <div class="player-core">
+                <button class="neon-play-btn" id="neonPlayBtn" aria-label="Reproducir/Pausar">
+                    <div class="neon-btn-inner">
+                        <svg class="play-icon" width="28" height="28" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" fill="currentColor"/>
+                        </svg>
+                        <svg class="pause-icon" width="28" height="28" viewBox="0 0 24 24" style="display: none;">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="ripple-effect"></div>
+                    <div class="ripple-effect ripple-2"></div>
+                </button>
+                
+                <div class="live-indicator" id="liveIndicator" style="display: none;">
+                    <div class="live-dot"></div>
+                    <span class="live-text">EN VIVO</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- RELOJ -->
+        <div class="player-controls-panel">
+            <div class="current-time-display">
+                <span class="time-label">HORA ACTUAL</span>
+                <div class="time-and-icon">
+                    <i class="fas fa-clock"></i>
+                    <span id="currentTime">00:00:00</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ALERTAS -->
+        <div class="alert-panel" id="alertPanel">
+            <div class="alert-content">
+                <i class="fas fa-info-circle"></i>
+                <span id="alertMessage">Sistema listo</span>
+            </div>
+            <button class="alert-close" id="alertClose">&times;</button>
+        </div>
+    </div>
+    
+    <!-- SOCIAL -->
+    <div class="social">
+        <a href="https://www.facebook.com/radiosupera1" target="_blank" class="facebook" title="Facebook">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook">
+        </a>
+        <a href="https://wa.me/51964658275?text=Hola%20Radio%20Super%20A1%20👋%20quiero%20escuchar%20la%20radio%20en%20vivo!" target="_blank" class="whatsapp" title="WhatsApp">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp">
+        </a>
+        <a href="https://www.youtube.com/@radiosupera1" target="_blank" class="youtube" title="YouTube">
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube">
+        </a>
+    </div>
+    
+    <button class="share" onclick="showShareModal()">📢 Compartir</button>
+    
+    <footer>
+        © 2026 Radio Super A1 de Reymundo Zurita J. | Todos los derechos reservados
+        <div class="location-identity">TARMA - PERÚ</div>
+    </footer>
+    
+    <!-- AUTOPLAY -->
+    <div class="autoplay-overlay" id="autoplayOverlay">
+        <div class="autoplay-content">
+            <h2 class="autoplay-title">🎵 Radio Super A1</h2>
+            <p class="autoplay-text">Haz clic para comenzar a escuchar la mejor música en vivo</p>
+            <button class="autoplay-btn" id="autoplayBtn">ESCUCHAR AHORA</button>
+        </div>
+    </div>
+    
+    <!-- MODAL COMPARTIR -->
+    <div class="share-modal-overlay" id="shareModal">
+        <div class="share-modal-content">
+            <button class="share-modal-close" id="shareModalClose">&times;</button>
+            <img src="images/social-share.jpg" alt="Radio Super A1" class="share-modal-logo" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+PHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIGZpbGw9IiMwMGZmNjYiIHJ4PSIxNSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+UkFESU88L3RleHQ+PC9zdmc+';">
+            <h2 class="share-modal-title">¡Comparte La Radio Poder!</h2>
+            <p class="share-modal-subtitle">Lleva la mejor música a tus amigos</p>
+            <div class="share-modal-buttons">
+                <a href="#" target="_blank" class="share-btn-modal share-btn-facebook" id="shareFacebook">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+                <a href="#" target="_blank" class="share-btn-modal share-btn-whatsapp" id="shareWhatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="#" target="_blank" class="share-btn-modal share-btn-twitter" id="shareTwitter">
+                    <i class="fab fa-x-twitter"></i> Twitter
+                </a>
+                <button class="share-btn-modal share-btn-copy" id="copyLinkBtn">
+                    <i class="fas fa-link"></i> Copiar Enlace
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="js/player.js"></script>
+    
+    <!-- Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('✅ Service Worker registrado'))
+                .catch(e => console.log('❌ Service Worker error:', e));
+        }
+    </script>
+</body>
+</html>
