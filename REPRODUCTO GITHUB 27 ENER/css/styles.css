@@ -13,6 +13,7 @@ html, body {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+    touch-action: manipulation; /* Mejora respuesta al toque en móviles */
 }
 
 body {
@@ -21,7 +22,8 @@ body {
     background-image: url('../images/portada.webp');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    /* --- CORRECCIÓN 1: MÓVILES --- */
+    background-attachment: scroll; /* Móvil: Fluye con el scroll (Más fluido) */
     color: #fff;
     text-align: center;
     display: flex;
@@ -29,10 +31,21 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    min-height: 100vh;
+    /* --- CORRECCIÓN 2: ALTURA DINÁMICA --- */
+    min-height: 100vh; /* Fallback para navegadores viejos */
+    min-height: 100dvh; /* Altura dinámica para Android/iOS modernos */
     position: relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Padding inferior para teléfonos con barra de navegación inferior (iPhone, Xiaomi nuevos) */
+    padding-bottom: env(safe-area-inset-bottom); 
+}
+
+/* --- CORRECCIÓN 1: SOLO EN PC --- */
+@media (min-width: 769px) {
+    body {
+        background-attachment: fixed; /* PC: Efecto Parallax estático */
+    }
 }
 
 body::before {
@@ -44,6 +57,7 @@ body::before {
     bottom: 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 0;
+    pointer-events: none; /* Evita que bloquee clics */
 }
 
 header, .industrial-player-container, .social, .share, footer {
@@ -111,6 +125,8 @@ header p {
     filter: blur(20px);
     z-index: 1;
     animation: pulseGlow 4s ease-in-out infinite;
+    /* Optimización de GPU para animaciones */
+    will-change: opacity;
 }
 
 .neon-glow-2 {
@@ -151,6 +167,8 @@ header p {
     box-shadow: 
         0 0 30px rgba(0, 255, 102, 0.4),
         inset 0 0 20px rgba(0, 255, 102, 0.1);
+    /* Optimización móvil */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .neon-play-btn:hover {
@@ -276,6 +294,8 @@ header p {
     font-size: 2.2rem;
     color: var(--neon-green);
     font-weight: 700;
+    /* Prevenir que el texto se rompa en móviles pequeños */
+    white-space: nowrap;
 }
 
 .time-label {
@@ -306,6 +326,8 @@ header p {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     opacity: 0;
     transition: all 0.4s ease;
+    /* Ajuste para iPhone notch */
+    bottom: max(2rem, env(safe-area-inset-bottom) + 10px); 
 }
 
 .alert-panel.show {
@@ -360,6 +382,7 @@ header p {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.5s, visibility 0.5s;
+    /* Optimización: Reducir blur en móviles lentos mejora rendimiento */
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
@@ -401,6 +424,7 @@ header p {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .autoplay-btn:hover {
@@ -425,6 +449,7 @@ header p {
     width: 45px;
     height: 45px;
     transition: transform .2s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .social a:hover {
@@ -450,6 +475,7 @@ header p {
     cursor: pointer;
     font-weight: 600;
     transition: background .3s;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .share:hover {
@@ -461,6 +487,8 @@ footer {
     margin-top: 25px;
     font-size: .85em;
     text-shadow: 1px 1px 3px #000;
+    /* Ajuste para iPhone notch */
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .location-identity {
@@ -527,6 +555,7 @@ footer {
     cursor: pointer;
     padding: 0.2rem;
     transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .share-modal-close:hover {
@@ -575,6 +604,7 @@ footer {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     font-size: 0.9rem;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .share-btn-modal:hover {
@@ -613,7 +643,9 @@ footer {
     #currentTime { font-size: 2rem; }
     .time-label { font-size: 0.8rem; }
     .alert-panel { 
-        bottom: 1rem; 
+        bottom: 1rem;
+        /* Ajuste para iPhone notch en alerta */
+        bottom: max(1rem, env(safe-area-inset-bottom) + 5px);
         padding: 0.6rem 1rem; 
         min-width: auto; 
         width: calc(100% - 2rem);

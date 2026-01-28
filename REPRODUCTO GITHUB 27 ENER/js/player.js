@@ -25,9 +25,9 @@ class SuperRadioPlayer {
         this.alertTimeout = null;
         this.retryCount = 0;
         this.wakeLock = null;
-        this.visibilityState = 'visible';
+        this.streamUrl = 'https://stream.zeno.fm/zignjhagmspuv'; // URL Centralizada
         
-        console.log("📻 Radio Super A1 - Inicializando");
+        console.log("📻 Radio Super A1 - Inicializando (Versión Optimizada)");
         console.log("🌐 Navegador:", BrowserDetector.getStrategy());
         
         this.init();
@@ -36,11 +36,11 @@ class SuperRadioPlayer {
     init() {
         this.createAudioElement();
         this.bindEvents();
+        this.setupMediaSession(); // NUEVO: Integración con Android/iOS Lock Screen
         this.startClock();
         
         setTimeout(() => {
             this.showAutoplayOverlay();
-            this.showAlert("Presiona ESCUCHAR AHORA para comenzar", "info");
         }, 1000);
         
         this.showAlert("✅ Sistema listo", "success");
@@ -48,37 +48,77 @@ class SuperRadioPlayer {
     
     createAudioElement() {
         this.audio = new Audio();
-        this.audio.src = 'https://stream.zeno.fm/zignjhagmspuv';
-        this.audio.preload = "none";
+        this.audio.src = this.streamUrl;
+        // "metadata" es mejor que "none" para móviles, carga información rápida pero no el buffer pesado
+        this.audio.preload = "metadata"; 
         this.audio.crossOrigin = "anonymous";
-        this.audio.volume = 1.0;
         
         this.audio.addEventListener('playing', () => {
             console.log("▶️ Reproduciendo");
             this.isPlaying = true;
+            this.retryCount = 0; // Reiniciar conteo de errores al tener éxito
             this.updateUI();
+            this.updateMediaSessionState('playing');
+        });
+        
+        this.audio.addEventListener('pause', () => {
+            console.log("⏸️ Pausado");
+            this.isPlaying = false;
+            this.updateUI();
+            this.updateMediaSessionState('paused');
         });
         
         this.audio.addEventListener('error', (e) => {
-            console.error("Error de audio:", e);
+            console.error("Error nativo de audio:", e);
             this.handleAudioError();
         });
         
-        this.audio.addEventListener('canplay', () => {
-            console.log("✅ Audio listo");
+        this.audio.addEventListener('waiting', () => {
+            console.log("⏳ Buffering...");
         });
+
+        this.audio.addEventListener('stalled', () => {
+             console.warn("⚠️ Stream detenido (stalled), intentando recuperación...");
+             if(this.isPlaying) this.handleAudioError();
+        });
+    }
+    
+    // NUEVO: Configurar controles de pantalla de bloqueo
+    setupMediaSession() {
+        if ('mediaSession' in navigator) {
+            try {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: 'Radio Super A1',
+                    artist: 'En Vivo - Tarma, Perú',
+                    album: 'La Radio Poder',
+                    artwork: [
+                        { src: 'images/social-share.jpg', sizes: '96x96', type: 'image/jpeg' },
+                        { src: 'images/social-share.jpg', sizes: '512x512', type: 'image/jpeg' }
+                    ]
+                });
+
+                navigator.mediaSession.setActionHandler('play', () => this.play());
+                navigator.mediaSession.setActionHandler('pause', () => this.pause());
+                console.log("🎵 MediaSession configurado");
+            } catch (e) {
+                console.log("MediaSession no soportado en este navegador");
+            }
+        }
+    }
+
+    updateMediaSessionState(state) {
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.playbackState = state;
+        }
     }
     
     bindEvents() {
         const playBtn = document.getElementById('neonPlayBtn');
+        
         if (playBtn) {
+            // CORRECCIÓN CRÍTICA: Eliminamos 'touchend' para evitar doble disparo
+            // Usamos 'click' que en móviles modernos funciona perfectamente
             playBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.handleUserInteraction();
-                this.togglePlay();
-            });
-            
-            playBtn.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 this.handleUserInteraction();
                 this.togglePlay();
@@ -87,13 +127,7 @@ class SuperRadioPlayer {
         
         const autoplayBtn = document.getElementById('autoplayBtn');
         if (autoplayBtn) {
-            autoplayBtn.addEventListener('click', () => {
-                this.handleUserInteraction();
-                this.hideAutoplayOverlay();
-                this.play();
-            });
-            
-            autoplayBtn.addEventListener('touchend', (e) => {
+            autoplayBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.handleUserInteraction();
                 this.hideAutoplayOverlay();
@@ -106,8 +140,8 @@ class SuperRadioPlayer {
             alertClose.addEventListener('click', () => this.hideAlert());
         }
         
-        document.addEventListener('click', () => this.handleUserInteraction());
-        document.addEventListener('touchstart', () => this.handleUserInteraction(), { passive: true });
+        // Interacción global para desbloquear audio
+        document.addEventListener('click', () => this.handleUserInteraction(), { once: true });
         
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
@@ -116,28 +150,12 @@ class SuperRadioPlayer {
             }
         });
         
+        // Manejo de visibilidad (Pestaña en segundo plano)
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
-                this.visibilityState = 'hidden';
                 console.log("📱 Pestaña en segundo plano");
-                
-                if (BrowserDetector.isIOS() && this.audio && this.isPlaying) {
-                    this.audio.volume = 0.5;
-                }
             } else {
-                this.visibilityState = 'visible';
                 console.log("📱 Pestaña activa");
-                
-                if (this.audio && this.isPlaying) {
-                    this.audio.volume = 1.0;
-                    
-                    if (BrowserDetector.isIOS()) {
-                        setTimeout(() => {
-                            this.audio.play().catch(e => console.log("iOS: Reanudando..."));
-                        }, 300);
-                    }
-                }
-                
                 if (this.isPlaying) {
                     this.requestWakeLock();
                 }
@@ -148,30 +166,27 @@ class SuperRadioPlayer {
     handleUserInteraction() {
         if (!this.userInteracted) {
             this.userInteracted = true;
-            console.log("👤 Usuario interactuó");
+            console.log("👤 Usuario interactuó - Audio desbloqueado");
             this.hideAutoplayOverlay();
+            // Cargar audio en segundo plano para estar listo
+            if(this.audio.readyState === 0) this.audio.load();
         }
     }
     
     async requestWakeLock() {
-        try {
-            if ('wakeLock' in navigator) {
+        if ('wakeLock' in navigator) {
+            try {
+                if (this.wakeLock !== null) {
+                    await this.wakeLock.release();
+                }
                 this.wakeLock = await navigator.wakeLock.request('screen');
-                console.log("🔋 Wake Lock activado");
-                
                 this.wakeLock.addEventListener('release', () => {
+                    // Wake lock liberado (pantalla apagada o cambio de pestaña)
                     console.log("⚠️ Wake Lock liberado");
                 });
+            } catch (err) {
+                console.log("❌ Error Wake Lock:", err);
             }
-        } catch (err) {
-            console.log("❌ Wake Lock no disponible");
-        }
-    }
-    
-    releaseWakeLock() {
-        if (this.wakeLock) {
-            this.wakeLock.release();
-            this.wakeLock = null;
         }
     }
     
@@ -183,22 +198,18 @@ class SuperRadioPlayer {
             
             await this.requestWakeLock();
             
+            // Asegurar que el src esté cargado
             if (!this.audio.src) {
-                this.audio.src = 'https://stream.zeno.fm/zignjhagmspuv';
-                this.audio.load();
+                this.audio.src = this.streamUrl;
             }
             
             await this.audio.play();
             
             this.isPlaying = true;
             this.updateUI();
-            this.retryCount = 0;
             
-            if (navigator.vibrate) {
-                navigator.vibrate([50, 30, 50]);
-            }
-            
-            this.showAlert("🎶 ¡Conectado!", "success");
+            if (navigator.vibrate) navigator.vibrate(50);
+            this.showAlert("🎶 ¡En Vivo!", "success");
             
         } catch (error) {
             console.error("Error al reproducir:", error);
@@ -227,19 +238,25 @@ class SuperRadioPlayer {
     handleAudioError() {
         this.retryCount++;
         
+        // Limitar reintentos para evitar bucle infinito
         if (this.retryCount <= 3) {
-            this.showAlert(`Reintentando (${this.retryCount}/3)...`, "warning");
+            console.log(`Reintento ${this.retryCount}/3...`);
+            this.showAlert(`Reconectando (${this.retryCount}/3)...`, "warning");
             
             setTimeout(() => {
-                this.audio.src = 'https://stream.zeno.fm/zignjhagmspuv?t=' + Date.now();
+                // CORRECCIÓN: No agregar timestamp, solo recargar la fuente limpia
+                // Evita que el servidor corte la conexión por "doble login"
+                this.audio.src = this.streamUrl; 
                 this.audio.load();
                 
-                if (this.isPlaying) {
-                    this.audio.play().catch(e => console.log("Reintento fallido"));
+                if (this.userInteracted) {
+                    this.play().catch(e => console.log("Reintento fallido en proceso"));
                 }
             }, 2000 * this.retryCount);
         } else {
-            this.showAlert("❌ Error de conexión", "error");
+            this.showAlert("❌ Sin señal", "error");
+            this.isPlaying = false;
+            this.updateUI();
         }
     }
     
@@ -247,9 +264,11 @@ class SuperRadioPlayer {
         let message = "Error al conectar";
         
         if (error.name === 'NotAllowedError') {
-            message = "Permiso de audio denegado";
+            message = "Toca la pantalla para permitir audio";
+        } else if (error.name === 'NotSupportedError') {
+            message = "Formato no soportado";
         } else if (error.name === 'NetworkError') {
-            message = "Error de red";
+            message = "Sin conexión a internet";
         }
         
         this.showAlert(`❌ ${message}`, "error");
@@ -282,13 +301,11 @@ class SuperRadioPlayer {
     startClock() {
         setInterval(() => {
             const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const timeString = now.toLocaleTimeString('es-PE', { hour12: false });
             
             const timeEl = document.getElementById('currentTime');
             if (timeEl) {
-                timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+                timeEl.textContent = timeString;
             }
         }, 1000);
     }
@@ -311,7 +328,7 @@ class SuperRadioPlayer {
         alertPanel.classList.add('show');
         
         clearTimeout(this.alertTimeout);
-        this.alertTimeout = setTimeout(() => this.hideAlert(), 5000);
+        this.alertTimeout = setTimeout(() => this.hideAlert(), 4000); // Un poco más rápido
     }
     
     hideAlert() {
@@ -323,16 +340,12 @@ class SuperRadioPlayer {
     
     showAutoplayOverlay() {
         const overlay = document.getElementById('autoplayOverlay');
-        if (overlay) {
-            setTimeout(() => overlay.classList.add('show'), 500);
-        }
+        if (overlay) overlay.classList.add('show');
     }
     
     hideAutoplayOverlay() {
         const overlay = document.getElementById('autoplayOverlay');
-        if (overlay) {
-            overlay.classList.remove('show');
-        }
+        if (overlay) overlay.classList.remove('show');
     }
 }
 
@@ -349,23 +362,15 @@ function showShareModal() {
         const whatsappBtn = document.getElementById('shareWhatsapp');
         const twitterBtn = document.getElementById('shareTwitter');
         
-        if (facebookBtn) {
-            facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-        }
-        if (whatsappBtn) {
-            whatsappBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
-        }
-        if (twitterBtn) {
-            twitterBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-        }
+        if (facebookBtn) facebookBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+        if (whatsappBtn) whatsappBtn.href = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
+        if (twitterBtn) twitterBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
     }
 }
 
 function hideShareModal() {
     const modal = document.getElementById('shareModal');
-    if (modal) {
-        modal.classList.remove('show');
-    }
+    if (modal) modal.classList.remove('show');
 }
 
 function copyLink() {
@@ -376,15 +381,12 @@ function copyLink() {
             const originalHTML = copyBtn.innerHTML;
             copyBtn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
             copyBtn.style.background = 'rgba(0, 255, 102, 0.2)';
-            
             setTimeout(() => {
                 copyBtn.innerHTML = originalHTML;
                 copyBtn.style.background = 'transparent';
             }, 2000);
         }
-    }).catch(err => {
-        console.error('Error al copiar:', err);
-    });
+    }).catch(err => console.error('Error al copiar:', err));
 }
 
 // ========== INICIALIZACIÓN ==========
@@ -395,30 +397,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const shareModal = document.getElementById('shareModal');
     
-    if (shareModalClose) {
-        shareModalClose.addEventListener('click', hideShareModal);
-    }
-    
-    if (copyLinkBtn) {
-        copyLinkBtn.addEventListener('click', copyLink);
-    }
+    if (shareModalClose) shareModalClose.addEventListener('click', hideShareModal);
+    if (copyLinkBtn) copyLinkBtn.addEventListener('click', copyLink);
     
     if (shareModal) {
         shareModal.addEventListener('click', (event) => {
-            if (event.target === event.currentTarget) {
-                hideShareModal();
-            }
+            if (event.target === event.currentTarget) hideShareModal();
         });
     }
     
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', (event) => {
-        const now = Date.now();
-        if (now - lastTouchEnd <= 300) {
-            event.preventDefault();
-        }
-        lastTouchEnd = now;
-    }, { passive: false });
+    // ELIMINADO: El bloque de 'touchend' que prevenía zoom, ya que causaba conflictos de toque en Android
+    // Es mejor manejar esto vía meta viewport en el HTML (ya presente: user-scalable=no)
     
-    console.log("✅ Página cargada y funcional");
+    console.log("✅ Página cargada y funcional v2.0");
 });
